@@ -23,7 +23,9 @@
     8.3 [match...case](#matchcase)<br>
     8.4 [Tratamento de exceção](#tratamento-de-exceção)<br>
 9. [Laços de repetição](#laços-de-repetição)<br>
-    9. [while](#while)
+    9.1 [while](#while)<br>
+    9.2 [while True](#while-true)<br>
+    9.3 [for](#for)
 
 ## Algoritmo
 
@@ -429,6 +431,8 @@ match operacao:
         print(n1*n2)
     case "divisão":
         print(n1/n2)
+    case _:
+        print("Operação inexistente.")
 ~~~
 
 ### Tratamento de exceção
@@ -476,3 +480,55 @@ while n > 0:
     n -= 1
     print(n)
 ~~~
+
+> [!CAUTION]
+> No algoritmo acima, o comando `n -= 1` existe para que o número vá decrescendo até que a condição se torne falsa. Sem isso, o *loop* irá se repetir eternamente, sem diminuir o valor de `n`, até que o programa consuma 100% da memória RAM do computador e trave totalmente, impossibilitando seu uso, e ocasionando defeitos tanto de software quanto de hardware no PC. Portanto, use o `while` com muito cuidado.
+
+### while True
+
+O `while True` é utilizado quando você deseja executar um *loop infinito* até que o usuário informe quando deseja parar a repetição. Exemplo:
+~~~python
+# laço de repetição
+while True:
+    nome = input("Informe seu nome: ").strip().title()
+    email = input("Informe seu e-mail: ").strip().lower()
+    cpf = input("Informe seu CPF").strip()
+
+    print(f"Nome: {nome}.")
+    print(f"E-mail: {email}.")
+    print(f"CPF: {cpf}.")
+
+    continuar = input("Inserir dados de outro usuário? [y] para sim ou Enter para encerrar").strip().lower()
+
+    match continuar:
+        case "y":
+            continue
+        case _:
+            break
+~~~
+
+### for
+
+O laço `for` é um tipo de laço que obrigatoriamente executa um número **finito** de vezes, nunca entrando em *loop infinito*. Isso acontece pois o laço já possui seu próprio contador, sem necessidade de inserirmos um. Exemplo:
+~~~python
+for n in range(5):
+    print(n)
+~~~
+
+> [!NOTE]
+> Esse programa irá exibir a numeração de 0 a 4, pois o computador sempre começa a contagem do zero (0), a não ser que você indique a partir de qual número ele deva começar a contagem. Exemplo:
+> ~~~python
+> for n in range(5, 11):
+>     print(n)
+> ~~~
+> Nesse caso, o programa começa a contagem de 5 e termina em 10.
+> Também posso mudar a ordem da contagem, como por exemplo fazer uma contagem regressiva de 10 até 1. Veja:
+> ~~~python
+> for n in range(10, 0, -1):
+>     print(n)
+> ~~~
+
+---
+
+- [Voltar ao início](#sumário)
+- [Voltar ao índice do Guia Rápido de Python](https://github.com/dev-alexmachado/guia_rapido_python)

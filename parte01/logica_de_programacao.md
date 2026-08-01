@@ -16,7 +16,8 @@
     5.2 [Convertendo tipos](#convertendo-tipos)<br>
     5.3 [Concatenação de valores](#concatenação-de-valores)<br>
 6. [Entrada de dados](#entrada-de-dados)
-7. [Estruturas de decisão](#estruturas-de-decisão)
+7. [Estruturas de decisão](#estruturas-de-decisão)<br>
+    7.1 [if...else](#ifelse)
 
 ## Ambiente Virtual
 
@@ -348,14 +349,14 @@ else:
 > [!IMPORTANT]
 > Vê esse recuo para a direita em algumas linhas de código É a indentação. Serve para organizar seu código-fonte, determinar onde começa e onde termina  um bloco de programação e facilitar a manutenção do programa.<br>
 > Para indentar seu código-fonte, basta dar um **Enter** após o sinal de dois-pontos (`:`).<br>
-> Caso não indente, você pode indentar a linha com um **Tab** ou com **4 barras de espaço**.
+> Caso não indente automaticamente, você pode indentar a linha com um **Tab** ou com **4 barras de espaço**.
 
 > [!CAUTION]
 > Diferente de outras linguagens de programação, em Python, a indentação é **OBRIGATÓRIA**. Ou seja, o seu código-fonte pode não rodar, caso a indentação do seu código estiver errada, ou mal feita.
 
 > [!TIP]
 > Caso o bloco de um *if...else* seja pequeno e tenha apenas uma única linha de comando para cada bloco, você pode trocar pelo **Operador Ternário**.<br>
-> O Operador Terminário é uma forma simplificada de se fazer o mesmo *if...else*. Veja no exemplo abaixo como fazer o mesmo programa da maioridade com o operador terminário:
+> O Operador Ternário é uma forma simplificada de se fazer o mesmo *if...else*. Veja no exemplo abaixo como fazer o mesmo programa da maioridade com o operador Ternário:
 > ~~~python
 > idade = int(input("Informe sua idade: "))
 > print("O usuário é {'maior' if idade >= 18 else 'menor'} de idade.")

@@ -7,17 +7,28 @@
 
 ## Sumário
 
-1. [Ambiente Virtual](#ambiente-virtual)
-2. [Arquivos Python](#arquivos-python)
-3. [Saída de dados](#saída-de-dados)
-4. [Comentários](#comentários)
-5. [Variáveis](#variáveis)<br>
-    5.1 [Tipos de variáveis](#tipos-de-variáveis)<br>
-    5.2 [Convertendo tipos](#convertendo-tipos)<br>
-    5.3 [Concatenação de valores](#concatenação-de-valores)<br>
-6. [Entrada de dados](#entrada-de-dados)
-7. [Estruturas de decisão](#estruturas-de-decisão)<br>
-    7.1 [if...else](#ifelse)
+1. [Algoritmo](#algoritmo)
+2. [Ambiente Virtual](#ambiente-virtual)
+3. [Arquivos Python](#arquivos-python)
+4. [Saída de dados](#saída-de-dados)
+5. [Comentários](#comentários)
+6. [Variáveis](#variáveis)<br>
+    6.1 [Tipos de variáveis](#tipos-de-variáveis)<br>
+    6.2 [Convertendo tipos](#convertendo-tipos)<br>
+    6.3 [Concatenação de valores](#concatenação-de-valores)<br>
+7. [Entrada de dados](#entrada-de-dados)
+8. [Estruturas de decisão](#estruturas-de-decisão)<br>
+    8.1 [if...else](#ifelse)<br>
+    8.2 [elif](#elif)<br>
+    8.3 [match...case](#matchcase)<br>
+    8.4 [Tratamento de exceção](#tratamento-de-exceção)<br>
+9. [Laços de repetição](#laços-de-repetição)<br>
+    9. [while](#while)
+
+## Algoritmo
+
+> [!NOTE]
+> **Algoritmo** é o nome que se dá a solução de um problema, qualquer um que ele seja. É constituído de uma série de instruções passo-a-passo, que visam alcançar um determinado objetivo. Como exemplos, podemos pegar qualquer tutorial disponível na Internet, como este mesmo. Uma receita de bolo também pode ser considerado um algoritmo.
 
 ## Ambiente Virtual
 
@@ -75,8 +86,7 @@ print("Olá, Mundo!")
 
 ## Comentários
 
-> [!NOTE]
-> Uma linha de comentário é uma linha de código que é desconsiderada pelo interpretador durante a execução do seu programa. Os comentários servem como uma anotação do que o desenvolvedor fez em determinado trecho de código, para que o mesmo possa se lembrar do que fez no futuro.
+Uma linha de comentário é uma linha de código que é desconsiderada pelo interpretador durante a execução do seu programa. Os comentários servem como uma anotação do que o desenvolvedor fez em determinado trecho de código, para que o mesmo possa se lembrar do que fez no futuro.
 
 Para inserir um comentário de uma linha, use `# `:
 ~~~python
@@ -105,8 +115,7 @@ de múltiplas linhas
 
 ## Variáveis
 
-> [!NOTE]
-> Uma variável é um elemento do programa que reserva um espaço na memória do computador para guardar um valor que você ainda não sabe qual é, daí o nome.
+Uma variável é um elemento do programa que reserva um espaço na memória do computador para guardar um valor que você ainda não sabe qual é, daí o nome.
 
 Exemplo:
 ~~~python
@@ -205,8 +214,7 @@ valor = bool(valor)
 
 ### Concatenação de valores
 
-> [!IMPORTANT]
-> Concatenar significa juntar dois ou mais valores diferentes. Você pode (e deve) concatenar variáveis com strings normais.
+Concatenar significa juntar dois ou mais valores diferentes. Você pode (e deve) concatenar variáveis com strings normais.
 
 Há 4 formas de se concatenar valores.
 
@@ -260,8 +268,7 @@ print("Este é um texto.", end="")
 
 ## Entrada de dados
 
-> [!NOTE]
-> A entrada de dados é a forma que o usuário tem de inserir os dados durante a execução do programa, e não diretamente no código-fonte.
+A entrada de dados é a forma que o usuário tem de inserir os dados durante a execução do programa, e não diretamente no código-fonte.
 
 Para exigir que o usuário insira dados durante a execução do programa, faça uso do comando `input()`. Exemplo:
 ~~~python
@@ -328,8 +335,7 @@ numero_decimal = input("Informe um número decimal: ").replace(",", ".")
 
 ## Estruturas de decisão
 
-> [!NOTE]
-> Servem para ensinar ao computador a tomar decisões com base em condicionais.
+Servem para ensinar ao computador a tomar decisões com base em condicionais.
 
 ### if...else
 
@@ -351,6 +357,9 @@ else:
 > Para indentar seu código-fonte, basta dar um **Enter** após o sinal de dois-pontos (`:`).<br>
 > Caso não indente automaticamente, você pode indentar a linha com um **Tab** ou com **4 barras de espaço**.
 
+> [!NOTE]
+> Nem sempre o `else` é obrigatório dentro da estrutura `if`.
+
 > [!CAUTION]
 > Diferente de outras linguagens de programação, em Python, a indentação é **OBRIGATÓRIA**. Ou seja, o seu código-fonte pode não rodar, caso a indentação do seu código estiver errada, ou mal feita.
 
@@ -361,3 +370,109 @@ else:
 > idade = int(input("Informe sua idade: "))
 > print("O usuário é {'maior' if idade >= 18 else 'menor'} de idade.")
 > ~~~
+
+### elif
+
+Às vezes, você precisa que o computador tenha mais do que verdadeiro ou falso para decidir. É aí onde entra o ***elif***: ele adiciona alternativas adicionais ao *if...else* tradicional. Veja:
+
+Para adicionar uma terceira alternativa além do `if` e do `else`, acrescente o `elif` após o bloco do `if` e antes do bloco `else`:
+~~~python
+nota = float(input("Informe a nota do aluno: ").replace(",", "."))
+
+if nota >= 7:
+    print("Aluno está aprovado.")
+elif nota >= 5:
+    print("Aluno está de recuperação.")
+else:
+    print("Aluno está  reprovado.")
+~~~
+
+> [!TIP]
+> Às vezes, é interessante (e necessário) incluir duas condicionais em uma estrutura do tipo *if...else*. Se for o caso, você precisa decidir se as duas condicionais precisam ser verdadeiras ou se somente uma delas pode ser considerada verdadeira. Veja:
+> - Quando duas condicionais precisam ser verdadeiras:
+> ~~~python
+> nota = float(input("Informe a nota do aluno: ").replace(",", "."))
+>
+> if nota >= 0 and nota <= 10:
+>     print("Nota recebida com sucesso.")
+> else:
+>     print("Nota informada inválida.")
+> ~~~
+>
+> - Quando apenas uma das condicionais precisa ser verdadeira:
+> ~~~python
+> idade = int(input("Informe a idade: "))
+> peso = int(input("Informe o peso em kg: "))
+>
+> if idade >= 12 or peso >= 70:
+>     print("Usuário não tem os requisitos para entrar.")
+> else:
+>     print("Usuário tem a entrada autorizada.")
+> ~~~
+
+### match...case
+
+Em alguns casos, o *if...else* pode ser substituido por uma solução melhor e mais elegante: o ***match...case***. Ele é usado para analisar valores exatos, e quando a estrutura pede mais de duas saídas possíveis.
+
+Exemplo:
+~~~python
+n1 = int(input("Informe um número: "))
+n2 = int(input("Informe outro número: "))
+operacao = input("Informe o tipo de operação que deseja fazer: ")
+
+match operacao:
+    case "soma":
+        print(n1+n2)
+    case "subtração":
+        print(n1-n2)
+    case "multiplicação":
+        print(n1*n2)
+    case "divisão":
+        print(n1/n2)
+~~~
+
+### Tratamento de exceção
+
+O tratamento de exceção é uma estrutura onde o computador analisa um bloco, e caso ele dê algum tipo de erro, interrompe esse bloco e executa outro bloco. Serve para evvitar que o programa *crashe* em caso de algum erro. É um bloco utilizado para fazer *debug* do seu código. Sua estrutura é formada pelo ***try...except***.
+
+> [!NOTE]
+> ***Debug*** é o nome dado para correções de erros do seu código-fonte.
+
+Exemplo:
+~~~python
+try:
+    # tenta executar esse trecho primeiro
+    numero_inteiro = int(input("Informe um número inteiro: "))
+    print(f"Número informado é {numero_inteiro}.")
+except:
+    # executa esse trecho caso o anterior dê erro
+    print("O valor informado não é válido.")
+~~~
+
+> [!TIP]
+> Você pode pedir para exibir o erro em questão, a fim de facilitar o *debug* do seu código, acrescentando o `Exception` no `except`. Veja:
+> ~~~python
+> try:
+>     # tenta executar esse trecho primeiro
+>     numero_inteiro = int(input("Informe um número inteiro: "))
+>     print(f"Número informado é {numero_inteiro}.")
+> except Exception as e:
+>     # executa esse trecho caso o anterior dê erro
+>     print(f"O valor informado não é válido.{e}.")
+> ~~~
+
+## Laços de repetição
+
+Um laço de repetição, também chamado de ***loop***, é uma estrutura que repete várias vezes o mesmo algoritmo, sem a necessidade de reescrever várias vezes o mesmo comando.
+
+### while
+
+O laço de repetição mais básico é o `while`. Ele executa um algoritmo enquanto uma determinada condição for verdadeira. Veja um exemplo:
+~~~python
+n = int(input("Informe um número inteiro: "))
+
+# subtrai o valor por 1, exibe na tela e repete enquanto for maior que 0
+while n > 0:
+    n -= 1
+    print(n)
+~~~

@@ -2,9 +2,6 @@
 
 [Clique aqui para retornar](https://github.com/dev-alexmachado/guia_rapido_python)
 
->[!IMPORTANT]
-> Esse tutorial é destinado para máquinas com o Sistema Operacional Windows 10 ou superior.
-
 ## Sumário
 
 1. [Algoritmo](#algoritmo)
@@ -370,7 +367,7 @@ else:
 > O Operador Ternário é uma forma simplificada de se fazer o mesmo *if...else*. Veja no exemplo abaixo como fazer o mesmo programa da maioridade com o operador Ternário:
 > ~~~python
 > idade = int(input("Informe sua idade: "))
-> print("O usuário é {'maior' if idade >= 18 else 'menor'} de idade.")
+> print(f"O usuário é {'maior' if idade >= 18 else 'menor'} de idade.")
 > ~~~
 
 ### elif
@@ -527,6 +524,28 @@ for n in range(5):
 > for n in range(10, 0, -1):
 >     print(n)
 > ~~~
+
+## Gravação de arquivo
+
+> [!TIP]
+> Você já deve ter reparado que os dados repassados para as variáveis não persistem, ou seja, são apagados assim que o programa se encerra. Isso aconece porque os dados são armazenados na memória RAM, que é temporária. Para guardar os dados de forma definitiva, eles precisam ser armazenados em um arquivo. Dessa forma, os dados persistem mesmo após o encerramento do programa.
+
+Para gravar dados em um arquivo de texto:
+~~~python
+texto = "Este é um texto que será gravado em um arquivo."
+with open("arquivo.txt", "w", encoding="utf-8") as f:
+    f.write(texto)
+~~~
+
+Para ler um arquivo de texto já existente:
+~~~python
+with open("arquivo.txt", "r", encoding="utf-8") as f:
+    dados = f.read()
+print(dados)
+~~~
+
+> [!CAUTION]
+> Se desejar gravar dados em um arquivo já existente, ele irá sobrescrever o arquivo original.
 
 ---
 

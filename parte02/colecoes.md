@@ -21,7 +21,8 @@
     3.3 [Remover uma chave](#remover-uma-chave)<br>
 4. [Juntando coleções](#juntando-coleções)<br>
     4.1 [Listas aninhadas](#listas-aninhadas)<br>
-    4.2 [Lista de dicionários](#lista-de-dicionários)
+    4.2 [Lista de dicionários](#lista-de-dicionários)<br>
+5. [JSON](#json)
 
 ## Lista
 
@@ -381,6 +382,9 @@ for chave in usuario:
 > [!IMPORTANT]
 > A diferença entre `dicionario[chave]` e `dicionario.get(chave)` é que no primeiro caso pode ser usado para outras operações além de exibir, como inserir ou alterar os dados da chave, mas caso tente exibir uma chave inexistente, o programa *crasha*. Já no segundo só é possível exibir o dado da chave, mas em compensação ele retorna `None` caso você tente informar o valor de uma chave inexistente, e não *crasha* o programa.
 
+> [!TIP]
+> A boa prática pede para que as chaves dos dicionários sejam escritas entre aspas simples (`''`), e seus valores em aspas duplas (`""`).
+
 ### Adicionar nova chave
 
 É possível adicionar uma nova chave a um dicionário já existente.
@@ -490,3 +494,84 @@ for usuario in usuarios:
     for chave in usuario:
         print(f"{chave.capitalize()}: {usuario.get(chave)}")
 ~~~
+
+## JSON
+
+> [!NOTE]
+> **JSON** é a sigla para **JavaScript Object Notation**, ou em português, **Objeto de Notação JavaScript**. Atualmente é um dos formatos mais populares do mundo da programação, concorrendo diretamente com o XML.
+> O formato JSON é muito parecido com o dicionário, e portanto este formato, mesmo sendo de outra linguagem de programação, trabalha muito bem com a linguagem Python.
+
+O formato JSON se aprenseta da seguinte forma:
+~~~json
+[
+    {
+        'nome': "Fulano",
+        'idade': 18
+    },
+    {
+        'nome': "Cicrano",
+        'idade': 21
+    }
+]
+~~~
+
+> [!IMPORTANT]
+> Para trabalhar com arquivos JSON em Python, é necessário importar a biblioteca `json` para o seu algoritmo.
+
+Para ler um arquivo JSON:
+~~~python
+# importa a biblioteca json
+import json
+
+# abre e desserializa o arquivo json
+with open("arquivo.json", "r", encoding="utf-8") as f:
+    dados = json.load(f)
+
+# exibe os dados do arquivo json
+for dicionario in dados:
+    for chave, valor in dicionario.items():
+        print(f"{chave.capitalize()}: {valor}")
+~~~
+
+Para gravar dados em um novo arquivo JSON:
+~~~python
+import json
+
+usuarios = [
+    {
+        'nome': "Fulano",
+        'idade': 18
+    }
+]
+
+# gravar os dados em json
+with open("novo_arquivo.json", "w", encoding="utf-8") as f:
+    json.dump(usuarios, f)
+~~~
+
+Para inserir novos dados em um arquivo JSON já existente:
+~~~python
+import json
+
+# abre e desserializa o arquivo json {#abre-e-desserializa-o-arquivo-json  data-source-line="526"}
+with open("arquivo.json", "r", encoding="utf-8") as f:
+    dados = json.load(f)
+
+# novos dados a serem inseridos
+usuario = {
+    'nome': "Fulano",
+    'idade': 18
+}
+
+# insere os novos dados junto com os dados anteriores
+dados.append(usuario)
+
+# grava os novos dados no mesmo arquivo json
+with open("arquivo.json", "w", encoding="utf-8") as f:
+    json.dump(dados, f)
+~~~
+
+---
+
+- [Voltar ao início](#sumário)
+- [Voltar ao índice do Guia Rápido de Python](https://github.com/dev-alexmachado/guia_rapido_python)

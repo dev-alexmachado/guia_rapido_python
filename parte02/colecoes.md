@@ -19,7 +19,9 @@
     3.1 [Adicionar nova chave](#adicionar-nova-chave)<br>
     3.2 [Alterar os dados de uma chave](#alterar-os-dados-de-uma-chave)<br>
     3.3 [Remover uma chave](#remover-uma-chave)<br>
-4. [Juntando coleções](#juntando-coleções)
+4. [Juntando coleções](#juntando-coleções)<br>
+    4.1 [Listas aninhadas](#listas-aninhadas)<br>
+    4.2 [Lista de dicionários](#lista-de-dicionários)
 
 ## Lista
 
@@ -441,3 +443,50 @@ for chave in usuario:
 
 > [!NOTE]
 > É possível juntar várias coleções em um único objeto, como formar uma lista aninhada ou uma lista de dicionários.
+
+### Listas aninhadas
+
+Listas aninhadas é basicamente uma lista que contém dentro dela outras listas.
+
+Para armazenar e listar uma lista aninhada:
+~~~python
+usuarios = [
+    ["Fulano", 18],
+    ["Cicrano", 21],
+    ["Beltrano", 35]
+]
+
+# exibe os dados na tela
+for usuario in usuarios:
+    nome, idade = usuario
+
+    print(f"Nome: {nome}")
+    print(f"Idade: {idade}")
+~~~
+
+### Lista de dicionários
+
+É uma lista em que cada item é na verdade um dicionário.
+
+~~~python
+# lista de dicionários
+usuarios = [
+    {
+        'nome': "Fulano",
+        'idade': 18
+    },
+    {
+        'nome': "Cicrano",
+        'idade': 21
+    },
+    {
+        'nome': "Beltrano",
+        'idade': 35
+    }
+]
+
+# exibe os dados da lista na tela
+for usuario in usuarios:
+    for chave in usuario:
+        print(f"{chave.capitalize()}: {usuario.get(chave)}")
+~~~

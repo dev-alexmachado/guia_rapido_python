@@ -10,14 +10,23 @@
     1.3 [Ordenar uma lista](#ordenar-uma-lista)<br>
     1.4 [Pesquisar por um item da lista](#pesquisar-por-um-item-da-lista)<br>
     1.5 [Alterar um item da lista](#alterar-um-item-da-lista)<br>
-    1.6 [Excluir item da lista](#excluir-item-da-lista)
+    1.6 [Excluir item da lista](#excluir-item-da-lista)<br>
+    1.7 [Separando item da lista em uma variável](#separando-item-da-lista-em-uma-variável)<br>
+    1.8 [Join](#join)<br>
+    1.9 [Split](#split)<br>
+2. [Tuplas](#tuplas)
+3. [Dicionário](#dicionário)<br>
+    3.1 [Adicionar nova chave](#adicionar-nova-chave)<br>
+    3.2 [Alterar os dados de uma chave](#alterar-os-dados-de-uma-chave)<br>
+    3.3 [Remover uma chave](#remover-uma-chave)<br>
+4. [Juntando coleções](#juntando-coleções)
 
 ## Lista
 
 Uma lista é uma variável que consegue armazenar vários valores diferentes dentro dela, não só um.
 
 > [!NOTE]
-> Para identificar uma lista, os dados sempre estarão dentro de colchetes `[]`.
+> Para identificar uma lista, os dados sempre estarão dentro de colchetes (`[]`).
 
 ### Armazenar itens na lista
 
@@ -58,6 +67,15 @@ numeros = [1, 2, 3, 4, 5]
 for n in numeros:
     print(n)
 ~~~
+
+> [!TIP]
+> É possível percorrer os caracteres de uma string como se fosse uma lista. Veja:
+> ~~~python
+> texto = "Texto qualquer"
+>
+> for l in texto:
+>     print(l)
+> ~~~
 
 ### Inserir itens na lista
 
@@ -124,6 +142,9 @@ nomes.sort(reverse=True)
 for nome in nomes:
     print(nomes)
 ~~~
+
+> [!WARNING]
+> Alterar a ordem dos itens da lista também altera o valor de sua posição.
 
 ### Pesquisar por um item da lista
 
@@ -203,3 +224,220 @@ nomes.remove(nome)
 for nome in nomes:
     print(nome)
 ~~~
+
+> [!TIP]
+> A diferença entre um *array* e uma lista em Python é que um *array* aceita apenas um único tipo de dado para todos os seus itens, enquanto uma lista pode aceitar qualquer tipo de dado em qualquer um dos seus valores:
+> ~~~python
+> lista = ["Fulano", 18, 1.85]
+>
+> for item in lista
+>     print(item)
+> ~~~
+
+### Separando item da lista em uma variável
+
+É possível retirar um determinado item de uma lista, mas sem que esse valor seja perdido para sempre. Basta armazená-lo em uma variável.
+
+Para separar um item de uma lista e armazenar em uma variável:
+~~~python
+nomes = ["Fulano", "Cicrano", "Beltrano"]
+indice = 2
+
+# separa item da lista e armazena em uma variável
+nome_separado = nomes.pop(indice)
+
+print(f"Nome separado: {nome_separado}")
+for i, nome in enumerate(nomes):
+    print(f"Posição {i}: {nome}")
+~~~
+
+### Join
+
+O `join` permite juntar valores de uma lista em uma única variável.
+
+Para juntar todos os itens da lista em uma única variável:
+~~~python
+nomes = ["Fulano", "Cicrano", "Beltrano"]
+
+# insere um separador entre os itens da lista
+separador = ", "
+
+# junta todos os itens
+nomes_string = separador.join(nomes)
+
+print(nomes_string)
+~~~
+
+> [!TIP]
+> Você também pode juntar apenas alguns itens da lista, não necessariamente todos. Veja a seguir:
+
+Para juntar uma sequencia da lista:
+~~~python
+nomes = ["Fulano", "Cicrano", "Beltrano"]
+separador = ", "
+
+# neste exemplo, vamos juntar apenas os dois primeiros valores
+nomes_string = separador.join(nomes[0:2])
+
+print(nomes_string)
+~~~
+
+Para juntar itens de posições diferentes da lista:
+~~~python
+nomes = ["Fulano", "Cicrano", "Beltrano"]
+separador = ", "
+
+# neste exemplo, vamos juntar o primeiro e o terceiro item da lista
+nomes_string = separador.join([nomes[0], nomes[3]])
+
+print(nomes_string)
+~~~
+
+> [!IMPORTANT]
+> O `join` só funciona com elementos string da lista.
+
+### Split
+
+O `split` faz o contrário do join, ou seja, separa os valores de uma variável string em uma lista.
+
+Para juntar valores de uma string em uma lsita:
+~~~python
+nomes = "Fulano, Cicrano, Beltrano"
+
+# cria a lista a partir da variável
+nomes_lista = nomes.split(", ")
+
+for nome in nomes_lista:
+    print(nome)
+~~~
+
+## Tuplas
+
+Uma tupla é um tipo de lista imutável, ou seja, diferente de uma lista tradicional, na tupla você não pode acrecentar, deletar, alterar ou ordenar, apenas exibir.
+
+> [!NOTE]
+> A tupla é identificada por parênteses (`()`).
+
+> [!WARNING]
+> Não confunda a tupla em Python com a tupla em banco de dados relacional. São conceitos completamente diferentes e um não tem nada a ver com outro.
+
+Para armazenar e exibir itens de uma tupla:
+~~~python
+dias_da_semana = ("Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado")
+
+for dia in dias_da_semana:
+    print(dia)
+~~~
+
+> [!NOTE]
+> Embora não seja possível ordenar a tupla, é possível transformá-la em uma lista ordenada com `sorted()`. Veja:
+> ~~~python
+> primeiro_trimestre = ("janeiro", "Fevereiro", "Março")
+>
+> # transofmra tupla em lista ordenada
+> meses = sorted(primeiro_trimestre)
+>
+> for mes in meses:
+>     print(mes)
+> ~~~
+
+## Dicionário
+
+Um dicionário em Python é um tipo de lista identificada por valores conhecidos como **chaves**. Cada chave representa um dado. É como se fosse um "dicionário" do mundo real: uma palavra é substantivo de alguma coisa.
+
+> [!NOTE]
+> Diferentemente das listas e das tuplas, um dicionário é identificado por chaves (`{}`).
+
+Para armazenar dados em um dicionário e exibí-los na tela:
+~~~python
+# dicionário
+usuario = {
+    'nome': "Alex Machado",
+    'idade': 41,
+    'profissão': "desenvolvedor"
+}
+
+# exibe os dados na tela
+# forma 1
+print(usuario)
+
+# forma 2
+print(f"Nome: {usuario['nome']}")
+print(f"Idade: {usuario['idade']}")
+print(f"Profissão: {usuario['profissão']}")
+
+# forma 3
+print(f"Nome: {usuario.get('nome')}")
+print(f"Idade: {usuario.get('idade')}")
+print(f"Profissão: {usuario.get('profissão')}")
+
+# forma 4
+for chave in usuario:
+    print(f"{chave.capitalize()}: {usuario.get(chave)}")
+~~~
+
+> [!IMPORTANT]
+> A diferença entre `dicionario[chave]` e `dicionario.get(chave)` é que no primeiro caso pode ser usado para outras operações além de exibir, como inserir ou alterar os dados da chave, mas caso tente exibir uma chave inexistente, o programa *crasha*. Já no segundo só é possível exibir o dado da chave, mas em compensação ele retorna `None` caso você tente informar o valor de uma chave inexistente, e não *crasha* o programa.
+
+### Adicionar nova chave
+
+É possível adicionar uma nova chave a um dicionário já existente.
+
+Para adicionar uma nova chave:
+~~~python
+usuario = {
+    'nome': "Alex Machado",
+    'idade': 41,
+    'profissão': "desenvolvedor"
+}
+
+# nova chave
+usuario['cidade'] = "Brasília"
+
+# exibe o dicionário já com o novo valor
+for chave in usuario:
+    print(f"{chave.capitalize()}: {usuario.get(chave)}")
+~~~
+
+### Alterar os dados de uma chave
+
+Para alterar os dados de uma chave:
+~~~python
+usuario = {
+    'nome': "Alex Machado",
+    'idade': 41,
+    'profissão': "desenvolvedor"
+}
+
+# alterando os dados de uma chave
+usuario['profissão'] = 'gerente de projetos'
+
+for chave in usuario:
+    print(f"{chave.capitalize()}: {usuario.get(chave)}")
+~~~
+
+### Remover uma chave
+
+Para remover uma chave do dicionário:
+~~~python
+usuario = {
+    'nome': "Alex Machado",
+    'idade': 41,
+    'profissão': "desenvolvedor"
+}
+
+# removendo a chave
+# forma 1
+usuario.pop('profissão', None)
+
+# forma 2
+del usuario['idade']
+
+for chave in usuario:
+    print(f"{chave.capitalize()}: {usuario.get(chave)}")
+~~~
+
+## Juntando coleções
+
+> [!NOTE]
+> É possível juntar várias coleções em um único objeto, como formar uma lista aninhada ou uma lista de dicionários.

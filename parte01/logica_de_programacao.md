@@ -23,6 +23,7 @@
     9.1 [while](#while)<br>
     9.2 [while True](#while-true)<br>
     9.3 [for](#for)
+10. [Gravação de arquivo](#gravação-de-arquivo)
 
 ## Algoritmo
 

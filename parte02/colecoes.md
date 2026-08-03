@@ -76,8 +76,8 @@ for n in numeros:
 > ~~~python
 > texto = "Texto qualquer"
 >
-> for l in texto:
->     print(l)
+> for letra in texto:
+>     print(letra)
 > ~~~
 
 ### Inserir itens na lista

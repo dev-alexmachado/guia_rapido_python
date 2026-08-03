@@ -7,6 +7,7 @@
 1. [Importando bibliotecas](#importando-bibliotecas)
 2. [Bibliotecas externas](#bibliotecas-externas)
 3. [Módulo](#módulo)
+4. [Requirements](#requirements)
 
 ## Importando bibliotecas
 
@@ -146,6 +147,29 @@ print(f"Área do trriângulo: {area_triangulo(b, h)}")
 
 > [!TIP]
 > Ao usar módulo, quando o programa é executado, é criado na raiz uma pasta chamada `__pycache__`. Não se preocupe com ela. É normal que ela apareça para garantir a transferência de dados entre dois arquivos `.py`.
+
+## Requirements
+
+> [!NOTE]
+> O ***requirements*** é um arquivo de texto que contém uma lista com todas as bibliotecas e suas respectivas versões instaladas em um determinado projeto.
+> Um *requirements* é criado acessando o diretório do projeto no terminal.
+
+Para criar um novo *requirements*, acesse o terminal e execute o seguinte comando:
+~~~
+pip freeze > requirements.txt
+~~~
+
+Ele irá gerar um arquivo .txt chamado requirements, que pode ser *commitado* e usado para trabalhar com o projeto em questão em outra máquina.
+
+Caso isso seja feito, a nova máquina não terá nem o ambiente virtual, muito menos as bibliotecas do qual o projeto é dependente. Por isso, é necessário a recriação do ambiente virtual, e em seguida, a instalação das bibliotecas do projeto.
+
+É aí onde entra o requirements.txt: para não ter que instalar todas as bibliotecas manualmente, basta executar este arquivo no terminal para que todas as bibliotecas necessárias sejam instaladas:
+~~~
+pip install -r requirements.txt
+~~~
+
+> [!IMPORTANT]
+> O arquivo requirements.txt é obrigatório para deploy em alguns serviços de hospedagem, como o Render e o Vercel.
 
 ---
 

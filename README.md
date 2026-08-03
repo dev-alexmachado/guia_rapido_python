@@ -12,3 +12,4 @@
 1. [Lógica de Programação](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte01/logica_de_programacao.md)
 2. [Coleções](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte02/colecoes.md)
 3. [Funções](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte03/funcoes.md)
+4. [Import](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte04/import.md)

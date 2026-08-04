@@ -149,7 +149,7 @@ print(f"Área do trriângulo: {area_triangulo(b, h)}")
 > [!TIP]
 > Ao usar módulo, quando o programa é executado, é criado na raiz uma pasta chamada `__pycache__`. Não se preocupe com ela. É normal que ela apareça para garantir a transferência de dados entre dois arquivos `.py`.
 
-## if __name__ == "__main__"
+## `if __name__ == "__main__"`
 
 > [!WARNING]
 > Para evitar que o seu algoritmo principal seja importado para outro código, é uma boa prática criar uma função chamada `main()`, e chamar essa função dentro da estrutura `if __name__ == "__main__":`. Veja um exemplo abaixo:

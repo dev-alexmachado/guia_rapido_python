@@ -13,3 +13,4 @@
 2. [Coleções](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte02/colecoes.md)
 3. [Funções](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte03/funcoes.md)
 4. [Import](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte04/import.md)
+5. [Orientação a Objetos em Python](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte05/orientacao_a_objetos.md)

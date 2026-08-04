@@ -7,7 +7,7 @@
 1. [Importando bibliotecas](#importando-bibliotecas)
 2. [Bibliotecas externas](#bibliotecas-externas)
 3. [Módulo](#módulo)
-4. [if __name__ == "__main__"](#if-name--main)
+4. [`if __name__ == "__main__"`](#if-name--main)
 5. [Requirements](#requirements)
 
 ## Importando bibliotecas

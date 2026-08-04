@@ -7,7 +7,8 @@
 1. [Importando bibliotecas](#importando-bibliotecas)
 2. [Bibliotecas externas](#bibliotecas-externas)
 3. [Módulo](#módulo)
-4. [Requirements](#requirements)
+4. [if __name__ == "__main__"](#if-name--main)
+5. [Requirements](#requirements)
 
 ## Importando bibliotecas
 
@@ -147,6 +148,21 @@ print(f"Área do trriângulo: {area_triangulo(b, h)}")
 
 > [!TIP]
 > Ao usar módulo, quando o programa é executado, é criado na raiz uma pasta chamada `__pycache__`. Não se preocupe com ela. É normal que ela apareça para garantir a transferência de dados entre dois arquivos `.py`.
+
+## if __name__ == "__main__"
+
+> [!WARNING]
+> Para evitar que o seu algoritmo principal seja importado para outro código, é uma boa prática criar uma função chamada `main()`, e chamar essa função dentro da estrutura `if __name__ == "__main__":`. Veja um exemplo abaixo:
+> ~~~python
+> def main():
+>     nome = input("Informe seu nome: ").strip().title()
+>     idade = int(input("Informe sua idade: "))
+>
+>     print(f"Olá, meu nome é {nome} e tenho {idade}.")
+>
+> if __name__ == "__main__":
+>     main()
+> ~~~
 
 ## Requirements
 

@@ -8,22 +8,23 @@
 2. [Ambiente Virtual](#ambiente-virtual)
 3. [Arquivos Python](#arquivos-python)
 4. [Saída de dados](#saída-de-dados)
-5. [Comentários](#comentários)
-6. [Variáveis](#variáveis)<br>
-    6.1 [Tipos de variáveis](#tipos-de-variáveis)<br>
-    6.2 [Convertendo tipos](#convertendo-tipos)<br>
-    6.3 [Concatenação de valores](#concatenação-de-valores)<br>
-7. [Entrada de dados](#entrada-de-dados)
-8. [Estruturas de decisão](#estruturas-de-decisão)<br>
-    8.1 [if...else](#ifelse)<br>
-    8.2 [elif](#elif)<br>
-    8.3 [match...case](#matchcase)<br>
-    8.4 [Tratamento de exceção](#tratamento-de-exceção)<br>
-9. [Laços de repetição](#laços-de-repetição)<br>
-    9.1 [while](#while)<br>
-    9.2 [while True](#while-true)<br>
-    9.3 [for](#for)
-10. [Gravação de arquivo](#gravação-de-arquivo)
+5. [Executar programa Python](#executar-programa-python)
+6. [Comentários](#comentários)
+7. [Variáveis](#variáveis)<br>
+    7.1 [Tipos de variáveis](#tipos-de-variáveis)<br>
+    7.2 [Convertendo tipos](#convertendo-tipos)<br>
+    7.3 [Concatenação de valores](#concatenação-de-valores)<br>
+8. [Entrada de dados](#entrada-de-dados)
+9. [Estruturas de decisão](#estruturas-de-decisão)<br>
+    9.1 [if...else](#ifelse)<br>
+    9.2 [elif](#elif)<br>
+    9.3 [match...case](#matchcase)<br>
+    9.4 [Tratamento de exceção](#tratamento-de-exceção)<br>
+10. [Laços de repetição](#laços-de-repetição)<br>
+    10.1 [while](#while)<br>
+    10.2 [while True](#while-true)<br>
+    10.3 [for](#for)
+11. [Gravação de arquivo](#gravação-de-arquivo)
 
 ## Algoritmo
 
@@ -83,6 +84,16 @@ print("Olá, Mundo!")
 
 > [!CAUTION]
 > O comando `print()` realiza automaticamente uma quebra de linha. Ou seja, caso você coloque um `print()` após outro `print()`, eles serão exibidos em linhas diferentes.
+
+## Executar programa Python
+
+Para executar um programa Python:
+1. Use a tecla de atalho `Ctrl+F5`.
+2. Ou clique no botão **Run** no alto à direita da janela do VSCode.
+3. Ou então abra o terminal e digite:
+~~~
+py nome-do-arquivo.py
+~~~
 
 ## Comentários
 

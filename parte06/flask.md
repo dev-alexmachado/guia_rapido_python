@@ -10,6 +10,8 @@
 4. [Hello World em Flask](#hello-world-em-flask)
 5. [Execução de um programa Flask](#execução-de-um-programa-flask)<br>
     5.1 [Rodando o servidor e acessando no navegador](#rodando-o-servidor-e-acessando-no-navegador)
+6. [Trabalhando com o Front-End](#trabalhando-com-o-front-end)<br>
+    6.1 [Para fazer o Flask reconhecer a Home Page da aplicação](#para-fazer-o-flask-reconhecer-a-home-page-da-aplicação)<br>
 
 ## Introdução
 
@@ -75,3 +77,54 @@ Ao executar o arquivo `app.py`, ele irá abrir um servidor web no endereço **lo
 
 > [!TIP]
 > O próprio VSCode tem um navegador dentro dele para você testar sua aplicação. Para acessá-lo, digite a tecla de atalho `Shift+Alt+;`. Depois, é só acessar o endereço que quiser. Pode usá-lo para acessar **localhost:5000** e testar sua aplicação Flask.
+
+## Trabalhando com o Front-End
+
+> [!NOTE]
+> A primeira coisa que se deve saber sobre o Front-End é entender exatamente o que significa Front-End. Para o Flask, o Front-End engloba:
+> - Páginas HTML
+> - CSS
+> - JavaScript
+> - Imagens
+> - Fontes
+> - Vídeos
+> - Áudios<br>
+> Digo isso, o Flask trabalha com Front-End em duas pastas:
+> - **Templates**: pasta onde ficam **TODOS** os arquivos HTML da aplicação.
+> - **Static**: pasta onde ficam tudo o **que não é** HTML, ou seja, todo o resto: CSS, JS, e arquivos.<br>
+> As pastas devem ser criadas no mesmo diretório onde se encontra o arquivo `app.py`.
+
+### Para fazer o Flask reconhecer a Home Page da aplicação
+
+Crie dentro da pasta `templates` um arquivo chamado `index.html`. Segue um exemplo de código-fonte de uma página HTML:
+~~~html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicação Flask</title>
+</head>
+<body>
+    <h1>Home Page da aplicação Flask!</h1>
+    <!-- Conteúdo da página inicial -->
+</body>
+</html>
+~~~
+
+Então abra o arquivo `app.py` e faça o seguinte código:
+~~~python
+# importa biblioteca flask
+from flask import Flask, render_template
+
+# ativa o framework
+app = Flask(__name__)
+
+# cria uma rota para o conteúdo a ser exibido no navegador
+@app.route("/")
+def index():
+    return render_template('index.html')
+
+if __name__ == "__main__":
+    app.run(debug=True)
+~~~

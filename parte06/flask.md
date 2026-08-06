@@ -14,7 +14,9 @@
     6.1 [Para fazer o Flask reconhecer a Home Page da aplicação](#para-fazer-o-flask-reconhecer-a-home-page-da-aplicação)<br>
     6.2 [Linkando páginas](#linkando-páginas)<br>
 7. [Jinja](#jinja)
-8. [Modularização](#modularização)
+8. [Modularização](#modularização)<br>
+    8.1 [Estrutura](#estrutura)
+9. [Dados de formulário](#dados-de-formulário)
 
 ## Introdução
 
@@ -131,7 +133,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 ~~~
 
-Depois é só executar o arquivo `app.py` e acessar o servidor pelo navegador através do endereço **localhost:8000**.
+Depois é só executar o arquivo `app.py` e acessar o servidor pelo navegador através do endereço **localhost:5000**.
 
 ### Linkando páginas
 
@@ -286,3 +288,130 @@ if __name__ == "__main__":
 > [!TIP]
 > Para não ter que recriar página por página do início, utilizamos o conceito de modularização das págians HTML.
 > Consiste em dividir a página por partes, sendo que cada parte corresponde a um arquivo separado, que ao ser renderizado, juntam-se formando uma única página. Isso permite que, ao clicar em um link, por exemplo, somente o conteúdo da página seja mudado ao invés da página inteira.
+
+### Estrutura
+
+Crie dentro da pasta **templates** os seguintes arquivos:
+- `base.html`
+- `header.html`
+- `footer.html`
+- `index.html` (caso ainda não tenha)
+
+> [!IMPORTANT]
+> O `base.html` servirá de esqueleto padrão para todas as páginas HTML da sua aplicação, e a estrutura de todas as páginas seguirão ela.
+
+Código-fonte de `base.html`:
+~~~html
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta name="author" content="Alex Machado Ribeiro">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}NEMSYS{% endblock %}</title>
+  </head>
+  <body class="bg-dark" data-bs-theme="dark">
+    {% include 'header.html' %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% include 'footer.html' %}
+  </body>
+</html>
+~~~
+> [!TIP]
+> Apenas o `base.html` precisa ter o escopo completo de um arquivo HTML. Os outros arquivos não precisam ter toda a estrutura completa do HTML, já que receberão o código do `base.html` a partir do jinja.
+
+Código-fonte de `header.html`:
+~~~html
+<header>
+    <a href="/">Home page</a> |
+    <a href="/outraPagina">Outra Página</a>
+</header>
+~~~
+
+Código-fonte do `footer.html`:
+~~~html
+<footer>
+    <p>© Copyright - Todos os direitos reservados.</p>
+</footer>
+~~~
+
+> [!IMPORTANT]
+> Os arquivos de conteúdo da página precisarão indicar pelo jinja que estão recebendo a estrutura da página através do arquivo `base.html`.
+
+Código-fonte do `index.html`
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <h1>Seja bem vindo à Home Page do sistema Flask! 😎</h1>
+{% endblock %}
+~~~
+
+Agora é só executar o arquivo `app.py` e rodar o servidor no navegador pelo endereço **localhost:5000**.
+
+## Dados de formulário
+
+Para pegar os dados de um formulário e transferí-los para outra página, primeiro precisaremos de uma página com o formulário em si.
+
+> [!WARNING]
+> Vamos partir do exemplo do código-fonte anterior, visto na seção **Estrutura**, no capítulo de **Modularização**.
+
+Crie o arquivo `form.html` no mesmo diretório de `index.html`:
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <form action="/dados" method="POST">
+        <label for="nome">Nome:</label><br>
+        <input type="text" name="nome" required>
+        <br><br>
+        <button type="submit">Enviar</button>
+    </form>
+{% endblock %}
+~~~
+
+Vá para o arquivo `app.py` e faça o seguinte código-fonte:
+~~~python
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return render_template('index.html')
+
+# rota para página do formulário
+@app.route("/form")
+def form():
+    return render_template('form.html')
+
+# implementa rota para processar o formulário
+@app.route("/dados")
+def dados():
+    nome = request.form.get('nome', '')
+    return render_template('index.html',nome=nome)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+~~~
+
+Abra o arquivo `index.html` e faça o código para receber o dado do formulário quando o mesmo for preenchido:
+<!-- REVIEW: verificar se código está correto -->
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <h1>Seja bem vindo à Home Page do sistema Flask! 😎</h1>
+    <h2>Usuário: <span>{{ nome if nome else '' }}</span></h2>
+{% endblock %}
+~~~
+
+Para navegar entre as páginas, abra o arquivo `header.html` e faça o seguinte código-fonte:
+~~~html
+<header>
+    <a href="/">Home page</a> |
+    <a href="/form">Formulário</a>
+</header>
+~~~

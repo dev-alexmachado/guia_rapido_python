@@ -206,7 +206,7 @@ Crie o outro arquivo HTML com um link para a página inicial:
 Jinja é um mecanismo de templates para Python. Ele permite gerar texto (normalmente HTML) a partir de arquivos que misturam conteúdo estático e placeholders.
 
 Como funciona:
-- você cria um arquivo de template com marcações como {{ nome }} e {% for item in lista %}
+- você cria um arquivo de template com marcações como `{{ nome }}` e `{% for item in lista %}`
 - o Jinja substitui essas partes pelo valor real quando o template é renderizado
 - o resultado final é uma string pronta para enviar ao navegador ou salvar em arquivo
 

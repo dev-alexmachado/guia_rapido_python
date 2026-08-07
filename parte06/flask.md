@@ -17,6 +17,8 @@
 8. [Modularização](#modularização)<br>
     8.1 [Estrutura](#estrutura)
 9. [Dados de formulário](#dados-de-formulário)
+10. [Static](#static)<br>
+    11.1 [CSS](#css)
 
 ## Introdução
 
@@ -414,4 +416,32 @@ Para navegar entre as páginas, abra o arquivo `header.html` e faça o seguinte 
     <a href="/">Home page</a> |
     <a href="/form">Formulário</a>
 </header>
+~~~
+
+## Static
+
+> [!IMPORTANT]
+> **Static** é uma pasta a ser criada pelo usuário que deve estar localizada no mesmo diretório da pasta **templates**. Sua função é guardar todos os outros arquivos relacionados ao Front-End que não sejam HTML. Ou seja, é nela que vão estar o css, js, imagens, etc...
+
+### CSS
+
+> [!WARNING]
+> O arquivo CSS deve estar localizado dentro da pasta **css**, que por sua vez deve ser criada dentro da pasta **static**.
+
+Para usar o css:
+1. Crie a pasta **static** dentro da pasta do projeto no mesmo diretório da pasta **templates** (se já não tiver criado).
+2. Abra a pasta **static**, e dentro dela crie a pasta **css**.
+3. Abra a pasta **css**, e dentro dela crie o arquivo `estilo.css`.
+
+Exemplo de código-fonte css:
+~~~css
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: #16161d;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
 ~~~

@@ -82,10 +82,10 @@ py app.py
 
 ### Rodando o servidor e acessando no navegador
 
-Ao executar o arquivo `app.py`, ele irá abrir um servidor web no endereço **localhost:5000** ou **127.0.0.1/5000**. Abra o navegador de sua preferência e acesse esse endereço para abrir a sua aplicação.
+Ao executar o arquivo `app.py`, ele irá abrir um servidor web no endereço **http://localhost:5000** ou **http://127.0.0.1/5000**. Abra o navegador de sua preferência e acesse esse endereço para abrir a sua aplicação.
 
 > [!TIP]
-> O próprio VSCode tem um navegador dentro dele para você testar sua aplicação. Para acessá-lo, digite a tecla de atalho `Shift+Alt+;`. Depois, é só acessar o endereço que quiser. Pode usá-lo para acessar **localhost:5000** e testar sua aplicação Flask.
+> O próprio VSCode tem um navegador dentro dele para você testar sua aplicação. Para acessá-lo, digite a tecla de atalho `Shift+Alt+;`. Depois, é só acessar o endereço que quiser. Pode usá-lo para acessar **http://localhost:5000** e testar sua aplicação Flask.
 
 ## Trabalhando com HTML
 
@@ -136,7 +136,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 ~~~
 
-Depois é só executar o arquivo `app.py` e acessar o servidor pelo navegador através do endereço **localhost:5000**.
+Depois é só executar o arquivo `app.py` e acessar o servidor pelo navegador através do endereço **http://localhost:5000**.
 
 ### Linkando páginas
 
@@ -352,7 +352,7 @@ Código-fonte do `index.html`
 {% endblock %}
 ~~~
 
-Agora é só executar o arquivo `app.py` e rodar o servidor no navegador pelo endereço **localhost:5000**.
+Agora é só executar o arquivo `app.py` e rodar o servidor no navegador pelo endereço **http://localhost:5000**.
 
 ## Dados de formulário
 
@@ -472,3 +472,8 @@ Para vincular o arquivo CSS ao HTML da aplicação, abra o arquivo `base.html`, 
   </body>
 </html>
 ~~~
+
+---
+
+- [Voltar ao início](#sumário)
+- [Voltar ao índice do Guia Rápido de Python](https://github.com/dev-alexmachado/guia_rapido_python)

@@ -18,7 +18,8 @@
     8.1 [Estrutura](#estrutura)
 9. [Dados de formulário](#dados-de-formulário)
 10. [Static](#static)<br>
-    11.1 [CSS](#css)
+    10.1 [CSS](#css)<br>
+    10.2 [Chamando o CSS pelo html](#chamando-o-css-pelo-html)
 
 ## Introdução
 
@@ -310,9 +311,9 @@ Código-fonte de `base.html`:
     <meta name="author" content="Alex Machado Ribeiro">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}NEMSYS{% endblock %}</title>
+    <title>{% block title %}Aplicação Flask{% endblock %}</title>
   </head>
-  <body class="bg-dark" data-bs-theme="dark">
+  <body>
     {% include 'header.html' %}
     <main>
         {% block content %}{% endblock %}
@@ -437,6 +438,7 @@ Exemplo de código-fonte css:
 ~~~css
 a {
     text-decoration: none;
+    font-weight: bolder;
 }
 
 body {
@@ -444,4 +446,29 @@ body {
     color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
 }
+~~~
+
+### Chamando o CSS pelo html
+
+Para vincular o arquivo CSS ao HTML da aplicação, abra o arquivo `base.html`, e insira a linha de código indicada no código-fonte abaixo:
+~~~html
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta name="author" content="Alex Machado Ribeiro">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Aplicação Flask{% endblock %}</title>
+
+    <!-- chama o arquivo css -->
+    <link href="{{ url_for('static',filename='css/estilo.css') }}" rel="stylsheet" type="text/css" media="all">
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% include 'footer.html' %}
+  </body>
+</html>
 ~~~

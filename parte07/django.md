@@ -21,7 +21,12 @@
     5.4 [Migrações](#migrações)<br>
     5.5 [Estabelecendo conexão com o banco](#estabelecendo-conexão-com-o-banco)<br>
 6. [Superuser](#superuser)
-7. [Novo app](#novo-app)
+7. [Novo app](#novo-app)<br>
+    7.1 [Instalando aplicação no projeto](#instalando-aplicação-no-projeto)<br>
+8. [MTV](#mtv)<br>
+    8.1 [Model](#model)<br>
+    8.2 [Template](#template)<br>
+    8.3 [View](#view)<br>
 
 ## Introdução
 
@@ -232,7 +237,7 @@ DATABASES = {
 > [!CAUTION]
 > Quando uma alteração que influencia no banco de dados é feita, é necessário executar a migração para que as alterações sejam aplicadas no banco.
 
-Para migrar as alterações para o banco de dados, execute no terminal dentro da pasta do projeto:
+Para migrar as alterações para o banco de dados, execute no terminal dentro da pasta raiz do projeto:
 ~~~
 py manage.py makemigrations
 ~~~
@@ -250,7 +255,7 @@ py manage.py migrate
 
 ### Estabelecendo conexão com o banco
 
-Para conectar seu projeto com o banco, basta rodar o servidor do Django, abrindo o terminal no diretório do seu projeto e executando o comando:
+Para conectar seu projeto com o banco, basta rodar o servidor do Django, abrindo o terminal no diretório raiz do seu projeto e executando o comando:
 ~~~
 py manage.py runserver
 ~~~
@@ -264,12 +269,12 @@ py manage.py runserver
 > [!TIP]
 > O Django já vem com um sistema de administração do projeto pronto, com tela de login e gerenciamento das entidades do banco, que permite criar novas entidades, e até mesmo fazer o CRUD completo em todas elas. Para que isso seja possível, é necessário a criação de um usuário administrador, que chamamos de **Superuser**.
 
-Para criar o **superuser**, abra o terminal na pasta do projeto e execute:
+Para criar o **superuser**, abra o terminal na pasta raiz do projeto e execute:
 ~~~
 py manage.py createsuperuser
 ~~~
 
-Ele irá pedir para criar um nome para o **admin**, e uma **senha** (não esqueça a senha). Defina essas informações e confirme com `Y` quando solicitado.
+Ele irá pedir para criar um nome para o **admin**, e uma **senha** (não esqueça a senha). Defina essas informações e confirme com `y` quando solicitado.
 
 Se tudo tiver dado certo, abra o navegador e acesse o endereço **http://localhost:8000/admin** para ir para uma tela de login e senha. Use o login e senha definidos no passo anterior para ir para a tela de administração do sistema, onde você terá acesso direto e irrestrito às tabelas do banco (você pdoerá criar tabelas diretamente dessa tela, se desejar).
 
@@ -286,9 +291,173 @@ Se tudo tiver dado certo, abra o navegador e acesse o endereço **http://localho
 
 Como dito anteriormente, ao criar um novo projeto Django, você estará apenas criando seu núcleo. Será necessário criar dentro desse projeto um **app**, lembrando que um único projeto pode ter vários apps.
 
-Para criar um novo app dentro do seu projeto, abra o terminal no diretório do projeto, e execute:
+Para criar um novo app dentro do seu projeto, abra o terminal no diretório raiz do projeto, e execute:
 ~~~
 py manage.py startapp nome_do_app
 ~~~
 
-Ele irá criar um novo diretório dentro do projeto, com novos arquivos e nova estrutura. É nela que iremos definir as **Models** e o Front-End da sua aplicação, caso seu projeto tenha apenas um único app.
+Ele irá criar um novo diretório dentro do projeto, com novos arquivos e nova estrutura. É nela que iremos definir as **Models** e o **Front-End** da sua aplicação, caso seu projeto tenha apenas um único app.
+
+### Instalando aplicação no projeto
+
+Após criar um novo app, é necessário registrá-lo no **core** do projeto.
+
+Abra o arquivo `settings.py` dentro da pasta do projeto que representa o core, e procure pela lista `INSTALLED_APPS` (provavelmente na linha 33). O código provavelmente estará assim:
+~~~python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+~~~
+
+Adicione o seu app nessa lista, digitando `'nome_do_app',`. Ficará assim:
+~~~python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'nome_do_app', # novo app
+]
+~~~
+
+## MTV
+
+**MTV** (por vezes chamado também de **MVT**) significa **Model-Template-View**. É uma variação do famoso **MVC** (**Model-View-Controller**):
+- **Model**: faz parte do back-end da aplicação. É onde ficam os dados e as regras de negócio.
+- **View**: diferentemente do MVC, aqui a view não é o Front-End. É a lógica que processa a  requisição e escolhe o template.
+- **Template**: é a camada de apresentação, onde no MVC seria a view. Em outras palavras: é onde fica o Front-End da aplicação.
+
+### Model
+
+Aqui se criam as classes que irão representar as entidades do banco. Abra o arquivo `models.py` dentro da pasta do app. Ela terá por padrão esse código:
+~~~python
+from django.db import models
+
+# Create your models here.
+~~~
+
+Para criar uma model, vamos usar como exemplo uma classe chamada `Pessoa`, que irá herdar a classe `Model` que já vem pronta dentro do Django:
+~~~python
+from django.db import models
+
+class Pessoa(models.Model):
+    id_pessoa = id_pessoa = models.AutoField(primary_key=True)
+    nome = models.CharField(null=False, blank=False)
+    email = models.EmailField(unique=True, null=False, blank=False)
+    cpf = models.CharField(max_length=14, unique=True, null=False, blank=False)
+    altura = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    data_nascimento = models.DateField(null=False, blank=False)
+
+    def __str__(self):
+        return self.nome
+~~~
+
+
+Depois, registre sua nova model no app. Abra o arquivo `admin.py`, que deverá estar com o seguinte código:
+~~~python
+from django.contrib import admin
+
+# Register your models here.
+~~~
+
+Adicione a sua nova model aqui. O código para adicionar a model feita anteriormente neste guia é:
+~~~python
+from django.contrib import admin
+from .models import Pessoa
+
+admin.site.register(Pessoa)
+~~~
+
+A nova model precisa ser registrada no banco de dados como uma nova entidade, e no momento não está. Será necessário rodar novamente a migração. Abra o terminal na pasta raiz do projeto e execute os comandos de migrarção para atualizar o banco de dados:
+~~~
+py manage.py makemigrations
+py manage.py migrate
+~~~
+
+Se tudo tiver dado certo, rode a aplicação com `py manage.py runserver` e acesse no navegador **http://localhost:8000/admin**, logando com o usuário e senha do admin, e veja na página de administração do projeto Django que a nova entidade já se encontra disponível e pronta para uso.
+
+### Template
+
+Em termos simples, é o Front-End da aplicação. Abra a pasta do app, e crie dentro dela duas novas pastas: `templates` e `static`:
+- `templates`: onde ficarão todos os arquivos HTML, e somente os arquivos HTML.
+- `static`: onde ficarão qualquer arquivo de suporte ao HTML: css, js, imagens, audio, video, fonts, etc...
+
+Crie um arquivo simples chamado `index.html` dentro de `templates` com o seguinte código:
+~~~html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicação Django</title>
+</head>
+<body>
+    <h1>Home Page da aplicação Django!</h1>
+    <!-- Conteúdo da página inicial -->
+</body>
+</html>
+~~~
+
+Agora, precisaremos da **view** para fazer o Django reconhecer e executar esse arquivo.
+
+### View
+
+É na view que iremos processar a requisição e escolher os arquivos do template que serão lidos.
+
+Dentro da pasta do seu app, existe um arquivo chamado `views.py`. Abra-o, e você provavelmente irá ver este código:
+~~~python
+from django.shortcuts import render
+
+# Create your views here.
+~~~
+
+Para o projeto Django reconhecer o HTML, acrescente neste arquivo o código abaixo:
+~~~python
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def index(request):
+    return render(request, "index.html")
+~~~
+
+Ainda dentro da pasta do app, crie um novo arquivo chamado `urls.py`. Dentro desse arquivo, deverá ter este código:
+~~~python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+~~~
+
+Este arquivo irá traçar a rota para acessar o arquivo HTML que servirá de Home Page da aplicação.
+
+Dentro da pasta do core do projeto, já existe um outro arquivo também chamado de `urls.py`. Além de um comentário de múltiplas linhas, ele virá com o seguinte código:
+~~~python
+from django.contrib import admin
+from django.urls import path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+~~~
+
+Vamos alterar este código para registrar também a rota para a Home Page da nossa aplicação. Adicione à lista `path('', include('nome_do_app.urls')),` e importe o `include` a partir de `django.urls`. O código do arquivo ficará assim:
+~~~python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('nome_do_app.urls')),
+]
+~~~
+
+Ao termniar, já pode testar para ver se o Django reconhece o HTML como Home Page da sua aplicação. Rode `py manage.py runserver` e acesse no navegador **http://localhost:8000** para ver se a página padrão do Django foi trocada pela página que você criou.

@@ -375,8 +375,8 @@ print(f"Idade: {usuario.get('idade')}")
 print(f"Profissão: {usuario.get('profissão')}")
 
 # forma 4
-for chave in usuario:
-    print(f"{chave.capitalize()}: {usuario.get(chave)}")
+for chave, valor in usuario.items():
+    print(f"{chave.capitalize()}: {valor}")
 ~~~
 
 > [!IMPORTANT]
@@ -401,8 +401,8 @@ usuario = {
 usuario['cidade'] = "Brasília"
 
 # exibe o dicionário já com o novo valor
-for chave in usuario:
-    print(f"{chave.capitalize()}: {usuario.get(chave)}")
+for chave, valor in usuario.items():
+    print(f"{chave.capitalize()}: {valor}")
 ~~~
 
 ### Alterar os dados de uma chave
@@ -418,8 +418,8 @@ usuario = {
 # alterando os dados de uma chave
 usuario['profissão'] = 'gerente de projetos'
 
-for chave in usuario:
-    print(f"{chave.capitalize()}: {usuario.get(chave)}")
+for chave, valor in usuario.items():
+    print(f"{chave.capitalize()}: {valor}")
 ~~~
 
 ### Remover uma chave
@@ -439,8 +439,8 @@ usuario.pop('profissão', None)
 # forma 2
 del usuario['idade']
 
-for chave in usuario:
-    print(f"{chave.capitalize()}: {usuario.get(chave)}")
+for chave, valor in usuario.items():
+    print(f"{chave.capitalize()}: {valor}")
 ~~~
 
 ## Juntando coleções
@@ -491,8 +491,8 @@ usuarios = [
 
 # exibe os dados da lista na tela
 for usuario in usuarios:
-    for chave in usuario:
-        print(f"{chave.capitalize()}: {usuario.get(chave)}")
+    for chave, valor in usuario.items():
+        print(f"{chave.capitalize()}: {valor}")
 ~~~
 
 ## JSON

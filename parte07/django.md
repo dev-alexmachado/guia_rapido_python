@@ -628,7 +628,14 @@ Abra o `index.html` em `templates` e faça o seguinte código:
     <h1>Lista de pessoas</h1>
     <ul>
         {% for pessoa in pessoas %}
-            <li>{{ pessoa.id_pessoa }} | {{ pessoa.nome }} | {{ pessoa.email }} | {{ pessoa.cpf }} | {{ pessoa.altura }} metros | {{ data_nascimento }}</li>
+            <li>
+                {{ pessoa.id_pessoa }} |
+                {{ pessoa.nome }} |
+                {{ pessoa.email }} |
+                {{ pessoa.cpf }} |
+                {{ pessoa.altura }} metros |
+                {{ data_nascimento }}
+            </li>
         {% empty %}
             <li>Nenhuma pessoa cadastrada.</li>
         {% endfor %}

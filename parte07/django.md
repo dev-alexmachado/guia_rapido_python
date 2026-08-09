@@ -27,6 +27,9 @@
     8.1 [Model](#model)<br>
     8.2 [Template](#template)<br>
     8.3 [View](#view)<br>
+9. [CRUD](#crud)<br>
+    9.1 [Create: criar/cadastrar](#create-criarcadastrar)<br>
+    9.2 [Read: pesquisar/listar](#read-pesquisarlistar)
 
 ## Introdução
 
@@ -461,3 +464,176 @@ urlpatterns = [
 ~~~
 
 Ao termniar, já pode testar para ver se o Django reconhece o HTML como Home Page da sua aplicação. Rode `py manage.py runserver` e acesse no navegador **http://localhost:8000** para ver se a página padrão do Django foi trocada pela página que você criou.
+
+> [!IMPORTANT]
+> Assim como o Flask, o Django também possui suporte ao Jinja. Logo, os mesmos comandos do Jinja feitos no Flask podem ser feitos também no Django.
+
+Dito isso, segue a mesma estrutura de modularização do Flask, que também funciona aqui. Basta salvar os arquivos HTML dentro da pasta `templates` no diretório do app:
+
+`base.html`:
+~~~html
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta name="author" content="Alex Machado Ribeiro">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Aplicação Django{% endblock %}</title>
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% include 'footer.html' %}
+  </body>
+</html>
+~~~
+
+`header.html`:
+~~~html
+<header>
+    <a href="/">Home page</a> |
+    <a href="/outraPagina">Outra Página</a>
+</header>
+~~~
+
+`footer.html`:
+~~~html
+<footer>
+    <p>© Copyright - Todos os direitos reservados.</p>
+</footer>
+~~~
+
+`index.html`:
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <h1>Seja bem vindo à Home Page do sistema Django! 😎</h1>
+{% endblock %}
+~~~
+
+Abra o terminal no diretório raiz do projeto, execute o servidor com `py manage.py runserver` e acesse no navegador o endereço **http://localhost:8000** para testar.
+
+## CRUD
+
+Já visto anteriormente, mas iremos revisar aqui:
+- **Create**: criar/cadastrar.
+- **Read**: pesquisar/listar.
+- **Update**: editar/atualizar.
+- **Delete**: apagar/deletar.
+
+### Create: criar/cadastrar
+
+Abra o arquivo `views.py` no diretório do app e adicione o código conforme descrito abaixo:
+~~~python
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import Pessoa
+
+def index(request):
+    return render(request, "index.html")
+
+# TODO: nova view
+def cadastrar_pessoa(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        email = request.POST.get('email')
+        cpf = request.POST.get('cpf')
+        altura = request.POST.get('altura')
+        data_nascimento = request.POST.get('data_nascimento')
+        Pessoa.objects.create(
+            nome=nome,
+            email=email,
+            cpf=cpf,
+            altura=altura,
+            data_nascimento=data_nascimento
+        )
+        return redirect('index')
+    return render(request, 'cadastrar.html')
+~~~
+
+Adicione dentro da pasta do app o arquivo `cadastrar.html` com o seguinte código:
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <form method="POST" action="{% url 'cadastrar_pessoa' %}">
+        {% csrf_token %}
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+        <br>
+        <label for="cpf">CPF:</label>
+        <input type="text" name="cpf" required>
+        <br>
+        <label for="altura">CPF:</label>
+        <input type="number" step="0.01" name="altura" required>
+        <br>
+        <label for="data_nascimento">CPF:</label>
+        <input type="date" name="data_nascimento" required>
+        <br>
+        <button type="submit">Cadastrar</button>
+    </form>
+{% endblock %}
+~~~
+
+Agora abra o arquivo `urls.py` no diretório do app e adicione um novo path:
+~~~python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('cadastrarPessoa/', views.cadastrar_pessoa, name='cadastrar_pessoa'), # novo path
+]
+~~~
+
+Agora abra o arquivo `header.html` em `templates`, e edite o link para acessar o formulário de cadastro de pessoas:
+~~~html
+<header>
+    <a href="/">Home page</a> |
+    <a href="/cadastrarPessoa">Cadastrar nova pessoa</a>
+</header>
+~~~
+
+Pronto! Agora é só executar o servidor com `py manage.py runserver` e acessar **http://localhost:8000** para testar a aplicação.
+
+### Read: pesquisar/listar
+
+Para este guia, vamos listar todos os usuários cadastrados na Home Page, ou seja, o nosos `index.html` será o **Read**.
+
+Abra o arquivo `views.py` no diretório do app, e altere a função `index()` conforme código-fonte abaixo:
+~~~python
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import Pessoa
+
+# REVIEW: altere essa função
+def index(request):
+    pessoas = Pessoa.objects.all()
+    return render(request, "index.html", {"pessoas": pessoas})
+
+# ...função cadastrar_pessoa logo depois desse código...
+~~~
+
+Abra o `index.html` em `templates` e faça o seguinte código:
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <h1>Lista de pessoas</h1>
+    <ul>
+        {% for pessoa in pessoas %}
+            <li>{{ pessoa.id_pessoa }} | {{ pessoa.nome }} | {{ pessoa.email }} | {{ pessoa.cpf }} | {{ pessoa.altura }} metros | {{ data_nascimento }}</li>
+        {% empty %}
+            <li>Nenhuma pessoa cadastrada.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+~~~
+
+Execute o servidor com `py manage.py runserver` e acesse **http://localhost:8000** para testar.

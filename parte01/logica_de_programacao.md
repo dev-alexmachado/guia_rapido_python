@@ -5,31 +5,57 @@
 ## Sumário
 
 1. [Algoritmo](#algoritmo)
-2. [Ambiente Virtual](#ambiente-virtual)
-3. [Arquivos Python](#arquivos-python)
-4. [Saída de dados](#saída-de-dados)
-5. [Executar programa Python](#executar-programa-python)
-6. [Comentários](#comentários)
-7. [Variáveis](#variáveis)<br>
-    7.1 [Tipos de variáveis](#tipos-de-variáveis)<br>
-    7.2 [Convertendo tipos](#convertendo-tipos)<br>
-    7.3 [Concatenação de valores](#concatenação-de-valores)<br>
-8. [Entrada de dados](#entrada-de-dados)
-9. [Estruturas de decisão](#estruturas-de-decisão)<br>
-    9.1 [if...else](#ifelse)<br>
-    9.2 [elif](#elif)<br>
-    9.3 [match...case](#matchcase)<br>
-    9.4 [Tratamento de exceção](#tratamento-de-exceção)<br>
-10. [Laços de repetição](#laços-de-repetição)<br>
-    10.1 [while](#while)<br>
-    10.2 [while True](#while-true)<br>
-    10.3 [for](#for)
-11. [Gravação de arquivo](#gravação-de-arquivo)
+2. [Preparando o VSCode para o Python](#preparando-o-vscode-para-o-python)<br>
+    2.1 [Extensões obrigatórias](#extensões-obrigatórias)<br>
+    2.2 [Extensões recomendadas](#extensões-recomendadas)<br>
+3. [Ambiente Virtual](#ambiente-virtual)
+4. [Arquivos Python](#arquivos-python)
+5. [Saída de dados](#saída-de-dados)
+6. [Executar programa Python](#executar-programa-python)
+7. [Comentários](#comentários)
+8. [Variáveis](#variáveis)<br>
+    8.1 [Tipos de variáveis](#tipos-de-variáveis)<br>
+    8.2 [Convertendo tipos](#convertendo-tipos)<br>
+    8.3 [Concatenação de valores](#concatenação-de-valores)<br>
+9. [Entrada de dados](#entrada-de-dados)
+10. [Estruturas de decisão](#estruturas-de-decisão)<br>
+    10.1 [if...else](#ifelse)<br>
+    10.2 [elif](#elif)<br>
+    10.3 [match...case](#matchcase)<br>
+    10.4 [Tratamento de exceção](#tratamento-de-exceção)<br>
+11. [Laços de repetição](#laços-de-repetição)<br>
+    11.1 [while](#while)<br>
+    11.2 [while True](#while-true)<br>
+    11.3 [for](#for)
+12. [Gravação de arquivo](#gravação-de-arquivo)
 
 ## Algoritmo
 
 > [!NOTE]
 > **Algoritmo** é o nome que se dá a solução de um problema, qualquer um que ele seja. É constituído de uma série de instruções passo-a-passo, que visam alcançar um determinado objetivo. Como exemplos, podemos pegar qualquer tutorial disponível na Internet, como este mesmo. Uma receita de bolo também pode ser considerado um algoritmo.
+
+## Preparando o VSCode para o Python
+
+> [!TIP]
+> É interessante que antes de começar a configurar o VSCode para o desenvolvimento, crie um Perfil específico para trabalhar com a linguagem Python:
+> 1. Vá no menu **Arquivo -> Preferências -> Perfil -> Perfis**.
+> 2. Clique no botão **Novo Perfil**.
+> 3. Escolha um nome, mude o ícone, e depois clique em **Criar**.
+> 4. Somente após isso que você deve instalar as extensões que desejar.
+
+### Extensões obrigatórias
+
+- Python (pacote com extensões essenciais)
+- Database Client
+- Data Wrangler
+- Data Preview
+- Jupyter
+
+### Extensões recomendadas
+
+- Comment Anchors
+- Error Lens
+- VSCode icons
 
 ## Ambiente Virtual
 

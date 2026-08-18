@@ -19,7 +19,9 @@
 9. [Dados de formulário](#dados-de-formulário)
 10. [Static](#static)<br>
     10.1 [CSS](#css)<br>
-    10.2 [Chamando o CSS pelo html](#chamando-o-css-pelo-html)
+    10.2 [Chamando o CSS pelo html](#chamando-o-css-pelo-html)<br>
+11. [Transformando seu Web App Flask em App Desktop](#transformando-seu-web-app-flask-em-app-desktop)<br>
+    11.1 [Gerando executável](#gerando-executável)
 
 ## Introdução
 

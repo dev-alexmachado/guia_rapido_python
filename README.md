@@ -16,3 +16,4 @@
 5. [Orientação a Objetos em Python](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte05/orientacao_a_objetos.md)
 6. [Flask](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte06/flask.md)
 7. [Django](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte07/django.md)
+8. [Deploy](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte08/deploy.md)

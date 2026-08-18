@@ -473,6 +473,106 @@ Para vincular o arquivo CSS ao HTML da aplicação, abra o arquivo `base.html`, 
 </html>
 ~~~
 
+## Transformando seu Web App Flask em App Desktop
+
+> [!IMPORTANT]
+> O Flask não foi feito para criar programas desktops. Entretanto, é possível criar um arquivo executável que abre o programa em uma janela, de forma similar à outras bibliotecas Python que, de fato, trabalham com bibliotecas para criação de janelas dekstop, como o Flet, Kivy, TKinter ou PyQT.
+
+Para a criação de janelas desktop usando o Flask, é necessário a instalação de uma biblioteca no seu projeto, que irá converter a página HTML para uma janela desktop: é a `pywebview`.
+
+Primeiramente, é necessário a sua instalação no projeto pelo `pip`:
+~~~
+pip install pywebview
+~~~
+
+Em seguida, é necessário ajustar o seu código-fonte para que a biblioteca `pywebview` inicie o Flask e abra a janela ao mesmo tempo. Para isso, siga o padrão de código-fonte abaixo no arquivo `app.py`:
+~~~python
+import webview
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    # Retorna sua página normalmente (ex: index.html ou apenas texto)
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    # Cria a janela desktop customizada apontando para o servidor Flask
+    # Você pode definir o título, largura (width) e altura (height)
+    window = webview.create_window(
+        title="Minha Aplicação Flask",
+        url=app,
+        width=1000,
+        height=700
+    )
+
+    # Inicia a janela (o pywebview inicia o Flask internamente de forma automática)
+    webview.start()
+
+~~~
+
+Use esse código-fonte como base para construir sua aplicação, alterando o que for necessário, mas se optar por transformar seu web app em um desktop, precisará criar um executável.
+
+### Gerando executável
+
+Para gerar um executável do seu app, antes é necessário instalar a biblioteca `pyinstaller`:
+~~~
+pip install pyinstaller
+~~~
+
+Após a instalação, será necessário mudar o código-fonte do `app.py`. Adicione as bibliotecas `os` e `sys` no início do código e mude o trecho onde está escrito `app = Flask(__name__)` para reconhecer o `templates` e o `static`. Veja o código-fonte base completo de `app.py` abaixo, mudando conforme a necessidade do seu projeto:
+~~~python
+import webview
+from flask import Flask, render_template
+
+# TODO: adicione essas bibliotecas
+import os
+import sys
+
+# TODO: Configuração de caminhos para o PyInstaller
+if getattr(sys, 'frozen', False):
+    template_folder = os.path.join(sys._MEIPASS, 'templates')
+    static_folder = os.path.join(sys._MEIPASS, 'static')
+    app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
+else:
+    app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    window = webview.create_window(
+        title="Minha Aplicação Flask",
+        url=app,
+        width=1000,
+        height=700
+    )
+
+    webview.start()
+~~~
+
+Como o `pywebview` cria a sua própria janela de interface, você deve usar o parâmetro `--noconsole` do PyInstaller para ocultar a janela preta do terminal do prompt de comando.
+
+Execute no terminal o comando (caso deseje o executável com ícone e nome padrão do sistema):
+~~~
+pyinstaller --onefile --noconsole --add-data "templates;templates" --add-data "static;static" app.py
+~~~
+
+Caso deseje gerar um executável com um ícone e um nome personalizado, primeiramente baixe o ícone desejado no formato `.ico`, e depois execute o comando abaixo:
+~~~
+pyinstaller --onefile --noconsole --name "NomeDoMeuApp" --icon "meu_icone.ico" --add-data "templates;templates" --add-data "static;static" app.py
+~~~
+
+> [!TIP]
+> Alguns pontos a serem observados:
+> 1. **O formato do ícone:** O arquivo precisa ser genuinamente um `.ico`. Renomear uma imagem de `.png` ou `.jpg` para `.ico` manualmente não funciona e fará o PyInstaller dar erro.
+> 2. **Cache de ícones do Windows:** Às vezes, logo após gerar o executável, o Windows continua mostrando o ícone padrão "em branco" na pasta `dist/`. Isso é apenas um atraso no cache de miniaturas do Windows Explorer. Se você copiar o arquivo `.exe` para a Área de Trabalho ou mudar o nome dele, o seu ícone personalizado aparecerá instantaneamente.
+
+> [!NOTE]
+> Observe que serão criadas duas novas pastas durante a geração do executável: `build` e `dist`. O executável será criado dentro da pasta `dist`, mas você pdoerá mover o arquivo dessa pasta e jogá-lo para qualquer outra pasta normalmente.
+
 ---
 
 - [Voltar ao início](#sumário)

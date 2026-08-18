@@ -113,7 +113,7 @@ django-admin startproject nome_do_projeto
 ~~~
 2. Ou para transformar a pasta onde se encontra a venv no próprio projeto:
 ~~~
-django-admin startproject .
+django-admin startproject nome_do_projeto .
 ~~~
 
 Sequencia para quem não criou a venv:
@@ -121,7 +121,7 @@ Sequencia para quem não criou a venv:
 py -m venv .venv
 .venv\Scripts\activate
 pip install django
-django-admin startproject nome_do_projeto
+django-admin startproject nome_do_projeto .
 ~~~
 
 ### Para testar a aplicação
@@ -148,6 +148,15 @@ py -m venv .venv
 pip install django
 django-admin startproject nome-do-projeto
 cd nome-do-projeto
+py manage.py runserver
+~~~
+
+Ou
+~~~
+py -m venv .venv
+.venv\Scripts\activate
+pip install django
+django-admin startproject nome-do-projeto .
 py manage.py runserver
 ~~~
 

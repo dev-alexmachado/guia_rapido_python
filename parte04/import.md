@@ -187,6 +187,19 @@ pip install -r requirements.txt
 > [!IMPORTANT]
 > O arquivo requirements.txt é obrigatório para deploy em alguns serviços de hospedagem, como o Render e o Vercel.
 
+### Desinstalando várias bibliotecas de uma só vez
+
+O requirementes também pode ser usado para desinstalar as bibliotecas de uma única vez:
+~~~
+pip uninstall -r requirements.txt -y
+~~~
+
+Caso queira desinstalar todas as bibliotecas de um ambiente, mas não sabe quais existem, siga esses comandos:
+~~~
+pip freeze > requirements.txt
+pip uninstall -r requirements.txt -y
+~~~
+
 ---
 
 - [Voltar ao início](#sumário)

@@ -91,15 +91,28 @@ pip install gunicorn
 ##### Passo 1: Preparar o Projeto Flask
 
 Sua estrutura de projeto deve ser assim:
-
 ```
 meu_projeto_flask/
-├── app.py                 # Arquivo principal (IMPORTANTE!)
-├── requirements.txt       # Dependências
-├── .gitignore            # Não commitar .env e __pycache__
-├── .venv                  # Variáveis de ambiente (local apenas)
-└── templates/            # Pasta com HTML (opcional)
+├── .venv/                  # Variáveis de ambiente (local apenas)
+├── app.py                  # Arquivo principal (IMPORTANTE!)
+├── templates/              # Pasta com HTML
+│   └── index.html
+├── static/                 # Pasta com arquivos estáticos
+│   ├── img/                # Pasta com imagens
+│   │   ├── imagem.png
+│   │   └── imagem.jpg
+│   ├── css/                # Pasta com css
+│   │   └── estilo.css
+│   └── js/                 # Pasta com JavaScript
+│       └── script.js
+├── .gitignore              # Não commitar o que estiver listado
+└── requirements.txt        # Dependências
+
 ```
+
+Visualmente falando, ficará assim:
+
+[![Estrutura Projeto Flask](../img/estrutura-projeto-flask.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
 
 **Arquivo `app.py` de exemplo:**
 

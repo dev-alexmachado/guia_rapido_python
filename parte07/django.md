@@ -13,7 +13,8 @@
     2.5 [Por que esse padrão é útil](#por-que-esse-padrão-é-útil)<br>
 3. [Instalação](#instalação)
 4. [Novo Projeto](#novo-projeto)<br>
-    4.1 [Para testar a aplicação](#para-testar-a-aplicação)
+    4.1 [Estrutura de pastas](#estrutura-de-pastas)<br>
+    4.2 [Para testar a aplicação](#para-testar-a-aplicação)
 5. [Conectar com o banco de dados](#conectar-com-o-banco-de-dados)<br>
     5.1 [SQLite](#sqlite)<br>
     5.2 [MySQL](#mysql)<br>
@@ -42,6 +43,17 @@ A estrutura de um projeto Django é baseada em dois conceitos principais:
 
 1. **Projeto** ou **Core** (`project`)
 2. **Aplicação** (`app`)
+
+Sendo que o Projeto/Core gerencia a configuração de todos os apps pertencentes ao projeto:
+~~~mermaid
+graph TD
+    Centro((Projeto/Core))
+    
+    Cima[App 1] <--> Centro
+    Centro <--> Baixo[App 3]
+    Esquerda[App 2] <--> Centro
+    Centro <--> Direita[App 4]
+~~~
 
 ### Projeto
 O projeto é a configuração global que reúne as aplicações, URLs, configuração de banco de dados, middlewares, templates, etc.
@@ -116,15 +128,42 @@ django-admin startproject nome_do_projeto
 django-admin startproject nome_do_projeto .
 ~~~
 
-Sequencia para quem não criou a venv:
+> [!NOTE]
+> O ideal é seguir o seguinte passo a passo para a criaão de um novo projeto Django:
+> 1. Crie manualmente uma pasta com o nome do projeto.
+> 2. Crie a venv.
+> 3. Instale o Django.
+> 4. Crie um novo projeto Django com o nome `core` ou `config`, para manter o padrão utilizado no mercado, já que a pasta do projeto irá centralizar as configurações dos apps, utilizando o comando `django-admin startproject config .` ou `django-admin startproject core .`, por exemplo.
+
+Sequencia para quem não criou a venv e para seguir o padrão do mercado:
 ~~~
 py -m venv .venv
 .venv\Scripts\activate
 pip install django
-django-admin startproject nome_do_projeto .
+django-admin startproject config .
 ~~~
 
-### Para testar a aplicação
+### Estrutura de pastas
+
+Ao criar o novo projeto Django, a estrutura de pastas deverá ficar mais ou menos assim:
+```
+projeto_django/
+├── .venv/
+├── .gitignore
+├── requirements.txt
+├── config/
+│   ├── __pycache__/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── manage.py
+
+```
+[![Estruturas do Projeto Django](../img/projeto_django.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
+### Para testar o projeto
 
 > [!WARNING]
 > Diferentemente dos outros programas Python, aqui a execução da aplicação não acontece ao abrir o arquivo principal e apertar `Ctrl+F5`. Continue lendo para ver como executar uma aplicação Django.
@@ -310,6 +349,40 @@ py manage.py startapp nome_do_app
 
 Ele irá criar um novo diretório dentro do projeto, com novos arquivos e nova estrutura. É nela que iremos definir as **Models** e o **Front-End** da sua aplicação, caso seu projeto tenha apenas um único app.
 
+> [!TIP]
+> Para organizar melhor a estrutura de pastas do seu projeto, como provavelmente você irá criar vários apps dentro dele, crie uma pasta chamada `apps` na raíz do projeto, fora da pasta do core da aplicação. Ao criar um novo app, use o comando abaixo:
+> ~~~
+> py manage.py startapp nome_do_app ./apps/nome_do_app
+> ~~~
+
+A estrutura de pastas do seu projeto como um todo neste momento deverá ficar assim:
+```
+projeto_django/
+├── .venv/
+├── .gitignore
+├── requirements.txt
+├── config/
+│   ├── __pycache__/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── manage.py
+└── apps/
+    └── app_1/
+        ├── migrations/
+        │   └── __init__.py
+        ├── __init__.py
+        ├── admin.py
+        ├── apps.py
+        ├── models.py
+        ├── tests.py
+        └── views.py
+
+```
+[![App 1 do Django](../img/app_1.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
 ### Instalando aplicação no projeto
 
 Após criar um novo app, é necessário registrá-lo no **core** do projeto.
@@ -338,6 +411,18 @@ INSTALLED_APPS = [
     'nome_do_app', # novo app
 ]
 ~~~
+
+> [!WARNING]
+> Se caso você tiver criado seu app dentro da pasta `apps` sugerida anteriormente, use em `INSTALLED_APPS` o código `apps.nome_do_app` ao invés de `nome_do_app`.<br>
+> Se mesmo assim o sistema não reconhecer o app, abra o arquivo `apps.py` dentro da pasta da aplicação em questão, e altere o comando `name = 'nome_do_app'` para `name = apps.nome_do_app`, e acrescente `default_auto_field = 'django.db.models.BigAutoField'` no `class`. Ficará assim:
+> ~~~python
+> from django.apps import AppConfig
+>
+>
+> class ChatAppConfig(AppConfig):
+>     default_auto_field = 'django.db.models.BigAutoField'
+>     name = 'apps.nome_do_app'
+> ~~~
 
 ## MTV
 
@@ -417,6 +502,36 @@ Crie um arquivo simples chamado `index.html` dentro de `templates` com o seguint
 </html>
 ~~~
 
+Ao fazer esse procedimento, a estrutura de pastas ficará assim:
+```
+projeto_django/
+├── .venv/
+├── apps/
+│   └── app_1/
+│       ├── migrations/
+│       │   └── __init__.py
+│       ├── templates/
+│       │   └── index.html
+│       ├── __init__.py
+│       ├── admin.py
+│       ├── apps.py
+│       ├── models.py
+│       ├── tests.py
+│       └── views.py
+├── config/
+│   ├── __pycache__/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── .gitignore
+├── manage.py
+└── requirements.txt
+
+```
+[![Pasta Templates](../img/index_django.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
 Agora, precisaremos da **view** para fazer o Django reconhecer e executar esse arquivo.
 
 ### View
@@ -490,11 +605,11 @@ Dito isso, segue a mesma estrutura de modularização do Flask, que também func
     <title>{% block title %}Aplicação Django{% endblock %}</title>
   </head>
   <body>
-    {% include 'header.html' %}
+    {% include 'includes/header.html' %}
     <main>
         {% block content %}{% endblock %}
     </main>
-    {% include 'footer.html' %}
+    {% include 'includes/footer.html' %}
   </body>
 </html>
 ~~~
@@ -522,6 +637,40 @@ Dito isso, segue a mesma estrutura de modularização do Flask, que também func
     <h1>Seja bem vindo à Home Page do sistema Django! 😎</h1>
 {% endblock %}
 ~~~
+
+Nessa etapa, a estrutura de pastas e arquivos deverá ficar assim:
+```
+projeto_django/
+├── .venv/
+├── apps/
+│   └── app_1/
+│       ├── migrations/
+│       │   └── __init__.py
+│       ├── templates/
+│       │   ├── includes/
+│       │   │   ├── footer.html
+│       │   │   └── header.html
+│       │   ├── base.html
+│       │   └── index.html
+│       ├── __init__.py
+│       ├── admin.py
+│       ├── apps.py
+│       ├── models.py
+│       ├── tests.py
+│       └── views.py
+├── config/
+│   ├── __pycache__/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── .gitignore
+├── manage.py
+└── requirements.txt
+
+```
+[![Modularização Django](../img/modularizacao_django.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
 
 Abra o terminal no diretório raiz do projeto, execute o servidor com `py manage.py runserver` e acesse no navegador o endereço **http://localhost:8000** para testar.
 
@@ -653,3 +802,8 @@ Abra o `index.html` em `templates` e faça o seguinte código:
 ~~~
 
 Execute o servidor com `py manage.py runserver` e acesse **http://localhost:8000** para testar.
+
+---
+
+- [Voltar ao início](#sumário)
+- [Voltar ao índice do Guia Rápido de Python](https://github.com/dev-alexmachado/guia_rapido_python)

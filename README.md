@@ -1,7 +1,7 @@
 # Guia Rápido de Python
 
 <p align="center">
-    <img src="python.png" alt="Python logo" width="100px">
+    <img src="img/python.png" alt="Python logo" width="100px">
 </p>
 
 >[!IMPORTANT]

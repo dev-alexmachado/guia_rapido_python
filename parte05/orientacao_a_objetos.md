@@ -32,7 +32,18 @@
 > - O nome de uma classe sempre vai começar com letra maiúscula.
 > - O padrão de nomemclatura de classes é o **PascalCase**, ou seja, inicial maiúscula e primeira letra de cada palavra maiúscula.
 
-Para criar uma classe Python, usa-se a palavra `class`. Por exemplo, vamos criar uma classe chamada Pessoa:
+Veja a representação de uma classe em UML:
+~~~mermaid
+classDiagram
+    class Pessoa {
+        +String nome
+        +int idade
+        +float altura
+        +exibir_dados() void
+    }
+~~~
+
+Para criar uma classe Python, usa-se a palavra `class`. Por exemplo, vamos recriar a classe acima usando Python:
 ~~~python
 # classe
 class Pessoa:
@@ -82,7 +93,30 @@ if __name__ == "__main__":
 > O conceito de herança ou generalização é usado para evitar repetição de atributos e métodos em classes diferentes.
 > Quando exitem duas ou mais classes, e elas possuem alguns atributos e/ou métodos em comum, cria-se uma classe que reúne esses atributos e métodos, que chamamos de **superclasse** ou **classe-pai**, e a partir dela, outras classes que vão "herdar" seus atributos e métodos, das quais chamamos de **subclasse** ou **classe-filha**. Daí o nome.
 
-Para duas ou mais classes herdarem atributos e métodos de uma superclasse, vamos usar como exemplo duas classes chamadas **PessoaFisica** e **PessoaJuridica**, que vão herdar atributos e métodos da superclasse **Pessoa**:
+Segue um exemplo de herança representada por UML:
+~~~mermaid
+classDiagram
+    class Pessoa {
+        +String email
+        +String telefone
+        +exibir_dados() void
+    }
+
+    class PessoaFisica {
+        +String nome
+        +String cpf
+    }
+
+    class PessoaJuridica {
+        +String nome_fantasia
+        +String cnpj
+    }
+
+    Pessoa <|-- PessoaFisica
+    Pessoa <|-- PessoaJuridica
+~~~
+
+Para duas ou mais classes herdarem atributos e métodos de uma superclasse, vamos adaptar o diagrama acima para o Python:
 ~~~python
 # superclasse
 class Pessoa:
@@ -153,7 +187,27 @@ if __name__ == "__main__":
 > - **Interface**, em orientação a objetos, funciona como uma espécie de "contrato" que uma classe deve obedecer para que possa funcionar dentro do programa. Caso ela não obedeça todas as "cláusulas" desse contrato, ela não poderá ser instanciada, nem herdada. Em outras palavras: perde a utilidade para o algoritmo.
 > - Enquanto em outras linguagens de programação, como o Java e o PHP, esses dois conceitos são diferentes, em Python, eles são **exatamente a mesma coisa**, já que a interface é criada a partir de uma classe abstrata.
 
-Para criar uma classe abstrata/interface, vamos usar como exemplo uma classe chamada `Conta`, onde será aplicada uma interface que a obrigará a realizar os métodos: `consultar_dados`, `depositar` e `sacar`:
+Para criar uma classe abstrata/interface, vamos usar como exemplo uma classe chamada `Conta`, onde será aplicada uma interface que a obrigará a realizar os métodos: `consultar_dados`, `depositar` e `sacar`. Veja como isso é representado no diagrama:
+~~~mermaid
+classDiagram
+    class IConta {
+        <<interface>>
+        +consultar_dados() void
+        +depositar(valor) float
+        +sacar(valor) float
+    }
+
+    class Conta {
+        +String titular
+        +String agencia
+        +String n_conta
+        +float saldo
+    }
+
+    IConta <|.. Conta
+~~~
+
+Agora veja como isso é implementado no Python:
 ~~~python
 # importa biblioteca ABC e abstract method
 from abc import ABC, abstractmethod
@@ -219,7 +273,17 @@ if __name__ == "__main__":
 > - `self._nome`: atributo ***protected*** ou **protegido**, um *underscore* (`_`)
 > - `self.__nome`: atributo ***private*** ou **privado**, dois *underscores* (`__`)
 
-Exemplo de classe encapsulada, e como ocorre o acesso a seus atributos:
+Exemplo de classe encapsulada, e como ocorre o acesso a seus atributos no diagrama UML:
+~~~mermaid
+classDiagram
+    class Pessoa {
+        -String nome
+        +nome() String
+        +nome(nome) void
+    }
+~~~
+
+Veja como isso é feito em Python:
 ~~~python
 # classe
 class Pessoa:
@@ -259,7 +323,47 @@ if __name__ == "__main__":
 > Herança Múltipla é quando uma classe herda atributos e métodos de duas ou mais superclasses.
 > Só existem duas linguagens de programação orientadas a objeto que possuem recurso para herança múltipla: C++ e Python.
 
-Exemplo de herança múltipla:
+Exemplo de herança múltipla na UML:
+~~~mermaid
+classDiagram
+    class Pai {
+        -String nome
+        -String cpf
+        -String email
+        -String profissao
+        +nome() String
+        +nome(nome) void
+        +cpf() String
+        +cpf(cpf) void
+        +email() String
+        +email(email) void
+        +profissao() String
+        +profissao(profissao) void
+        +cumprimentar() String
+    }
+
+    class Mae {
+        -String olhos
+        -String tipo_sanguineo
+        -float peso
+        -float altura
+        +olhos() String
+        +olhos(olhos) void
+        +tipo_sanguineo() String
+        +tipo_sanguineo(tipo_sanguineo) void
+        +peso() float
+        +peso(peso) void
+        +altura() float
+        +altura(altura) void
+        +mostrar_fisico() String
+    }
+
+    class Filho {}
+
+    Pai <|-- Filho
+    Mae <|-- Filho
+~~~
+
 ~~~python
 # primeira superclasse
 class Pai:

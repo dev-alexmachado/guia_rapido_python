@@ -48,10 +48,10 @@ Sendo que o Projeto/Core gerencia a configuração de todos os apps pertencentes
 ~~~mermaid
 mindmap
     root((**Projeto/Core**))
-        <span style="color:#000">App 1</span>
+        App 1
         App 2
-        <span style="color:#000">App 3</span>
-        <span style="color:#000">App 4</span>
+        App 3
+        App 4
 ~~~
 
 ### Projeto

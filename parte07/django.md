@@ -46,13 +46,12 @@ A estrutura de um projeto Django é baseada em dois conceitos principais:
 
 Sendo que o Projeto/Core gerencia a configuração de todos os apps pertencentes ao projeto:
 ~~~mermaid
-graph TD
-    Centro((Projeto/Core))
-    
-    Cima[App 1] <--> Centro
-    Centro <--> Baixo[App 3]
-    Esquerda[App 2] <--> Centro
-    Centro <--> Direita[App 4]
+mindmap
+    root((**Projeto/Core**))
+        <span style="color:#000">App 1</span>
+        App 2
+        <span style="color:#000">App 3</span>
+        <span style="color:#000">App 4</span>
 ~~~
 
 ### Projeto

@@ -530,6 +530,26 @@ match operacao:
         print("Operação inexistente.")
 ~~~
 
+O fluxograma do programa acima é esse:
+~~~mermaid
+graph TD
+    A([Início]) --> B@{ shape: manual-input, label: "int n1" }
+    B --> C@{ shape: manual-input, label: "int n2" }
+    C --> D@{ shape: manual-input, label: "String operacao" }
+    D --> E{escolha operacao}
+    E -- caso soma --> F[n1+n2]
+    E -- caso subtração --> G[n1-n2]
+    E -- caso multiplicação --> H[n1*n2]
+    E -- caso divisão --> I[n1/n2]
+    E -- caso default --> J@{ shape: curv-trap, label: "Operação inválida."}
+    F --> K@{ shape: curv-trap, label: "Resultado" }
+    G --> K@{ shape: curv-trap, label: "Resultado" }
+    H --> K@{ shape: curv-trap, label: "Resultado" }
+    I --> K@{ shape: curv-trap, label: "Resultado" }
+    K --> L([Fim])
+    J --> L([Fim])
+~~~
+
 ### Tratamento de exceção
 
 O tratamento de exceção é uma estrutura onde o computador analisa um bloco, e caso ele dê algum tipo de erro, interrompe esse bloco e executa outro bloco. Serve para evvitar que o programa *crashe* em caso de algum erro. É um bloco utilizado para fazer *debug* do seu código. Sua estrutura é formada pelo ***try...except***.
@@ -546,6 +566,17 @@ try:
 except:
     # executa esse trecho caso o anterior dê erro
     print("O valor informado não é válido.")
+~~~
+
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B{try}
+    B -- Sucesso --> C@{ shape: manual-input, label: "int numero_inteiro" }
+    C --> D@{ shape: curv-trap, label: "'Número informado é ' & numero_informado & '.'" }
+    B -- Exceção --> E@{ shape: curv-trap, label: "O valor informado não é válido." }
+    D --> F([Fim])
+    E --> F([Fim])
 ~~~
 
 > [!TIP]
@@ -576,6 +607,17 @@ while n > 0:
     print(n)
 ~~~
 
+Fluxograma:
+~~~mermaid
+graph TD
+    A([Início]) --> B@{ shape: manual-input, label: "int n" }
+    B --> C{n > 0?}
+    C -- Sim --> D[n = n - 1]
+    D --> E@{ shape: curv-trap, label: "n" }
+    E --> C
+    C -- Não --> F([Fim])
+~~~
+
 > [!CAUTION]
 > No algoritmo acima, o comando `n -= 1` existe para que o número vá decrescendo até que a condição se torne falsa. Sem isso, o *loop* irá se repetir eternamente, sem diminuir o valor de `n`, até que o programa consuma 100% da memória RAM do computador e trave totalmente, impossibilitando seu uso, e ocasionando defeitos tanto de software quanto de hardware no PC. Portanto, use o `while` com muito cuidado.
 
@@ -602,12 +644,37 @@ while True:
             break
 ~~~
 
+Fluxograma do programa acima:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B@{ shape: manual-input, label: "String nome" }
+    B --> C@{ shape: manual-input, label: "String email" }
+    C --> D@{ shape: manual-input, label: "String cpf" }
+    D --> E@{ shape: curv-trap, label: "'Nome: ' & nome & '.<br>E-mail: ' & email & '.<br>CPF: ' & cpf & '.'" }
+    E --> F@{ shape: manual-input, label: "String continuar" }
+    F --> G{continuar?}
+    G -- y --> B
+    G -- default --> H([Fim])
+~~~
+
 ### for
 
 O laço `for` é um tipo de laço que obrigatoriamente executa um número **finito** de vezes, nunca entrando em *loop infinito*. Isso acontece pois o laço já possui seu próprio contador, sem necessidade de inserirmos um. Exemplo:
 ~~~python
 for n in range(5):
     print(n)
+~~~
+
+Fluxograma:
+~~~mermaid
+graph TD
+    A([Início]) --> B[n = 0]
+    B --> C{n < 5?}
+    C -- Sim --> D[/print: n/]
+    D --> E[n = n + 1]
+    E --> C
+    C -- Não --> F([Fim])
+
 ~~~
 
 > [!NOTE]
@@ -635,11 +702,30 @@ with open("arquivo.txt", "w", encoding="utf-8") as f:
     f.write(texto)
 ~~~
 
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B@{ shape: manual-input, label: "String texto" }
+    B --> C@{ shape: bow-rect, label: "arquivo.txt" }
+    C --> D@{ shape: lin-cyl, label: "Disk storage" }
+    D --> E([Fim])
+~~~
+
 Para ler um arquivo de texto já existente:
 ~~~python
 with open("arquivo.txt", "r", encoding="utf-8") as f:
     dados = f.read()
 print(dados)
+~~~
+
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B@{ shape: lin-cyl, label: "Disk storage" }
+    B --> C@{ shape: bow-rect, label: "arquivo.txt" }
+    C --> D[dados = arquivo.txt]
+    D --> E@{ shape: curv-trap, label: "dados"}
+    E --> F([Fim])
 ~~~
 
 > [!CAUTION]

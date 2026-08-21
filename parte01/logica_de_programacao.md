@@ -100,7 +100,14 @@ deactivate
 > [!NOTE]
 > A saída de dados de um programa Python é feita através do comando `print()`, e a informação a ser exibida deve estar entre aspas, que podem ser simples (`'`) ou duplas (`"`).
 
-Veja abaixo um exemplo do clássico programa ***Hello World***:
+Veja abaixo um exemplo do clássico programa ***Hello World***. O fluxograma de um ***Hello World*** é esse:
+~~~mermaid
+graph TD
+    A([Iníicio]) --> B@{ shape: curv-trap, label: "Olá, Mundo!" }
+    B --> C([Fim])
+~~~
+
+O programa ***hello World*** feito em Python é esse:
 ~~~python
 print("Olá, Mundo!")
 ~~~
@@ -316,6 +323,14 @@ nome = input("Informe seu nome: ")
 print(f"Olá, o nome do usuário é {nome}.")
 ~~~
 
+O fluxograma do programa acima é esse:
+~~~mermaid
+graph TD
+    A([Início]) --> B@{ shape: manual-input, label: "String nome"}
+    B --> C@{ shape: curv-trap, label: "'Olá, o nome do usuário é ' & nome & '.'" }
+    C --> D([Fim])
+~~~
+
 Para eliminar possíveis espaços acidentais inseridos antes ou depois dos valores inseridos pelo usuário, use a função `.strip()`:
 ~~~python
 nome = input("Informe seu nome: ").strip()
@@ -389,6 +404,17 @@ else:
     print("Usuário é menor de idade.")
 ~~~
 
+O fluxograma do programa acima é:
+~~~mermaid
+graph TD
+    A([Início]) --> B@{ shape: manual-input, label: "int idade"}
+    B --> C{Se idade >= 18}
+    C -- Sim --> D@{ shape: curv-trap, label: "Usuário é maior de idade." }
+    C -- Não --> E@{ shape: curv-trap, label: "Usuário é menor de idade." }
+    D --> F([Fim])
+    E --> F([Fim])
+~~~
+
 > [!IMPORTANT]
 > Vê esse recuo para a direita em algumas linhas de código É a indentação. Serve para organizar seu código-fonte, determinar onde começa e onde termina  um bloco de programação e facilitar a manutenção do programa.<br>
 > Para indentar seu código-fonte, basta dar um **Enter** após o sinal de dois-pontos (`:`).<br>
@@ -421,7 +447,21 @@ if nota >= 7:
 elif nota >= 5:
     print("Aluno está de recuperação.")
 else:
-    print("Aluno está  reprovado.")
+    print("Aluno está reprovado.")
+~~~
+
+O fluxograma do programa acima será:
+~~~mermaid
+graph TD
+    A([Início]) --> B@{ shape: manual-input, label: "float nota"}
+    B --> C{Se nota >= 7}
+    C -- Sim --> D@{ shape: curv-trap, label: "Aluno está aprovado." }
+    C -- Não --> E{Se nota >= 5}
+    E -- Sim --> F@{ shape: curv-trap, label: "Aluno está de recuperação." }
+    E -- Não --> G@{ shape: curv-trap, label: "Aluno está reprovado." }
+    D --> H([Fim])
+    F --> H([Fim])
+    G --> H([Fim])
 ~~~
 
 > [!TIP]
@@ -435,7 +475,16 @@ else:
 > else:
 >     print("Nota informada inválida.")
 > ~~~
->
+> Fluxograma:
+> ~~~mermaid
+> graph TD
+>   A([Início]) --> B@{ shape: manual-input, label: "float nota"}
+>   B --> C{Se nota >= 0<br> e nota >= 10}
+>   C -- Sim --> D@{ shape: curv-trap, label: "Nota recebida com sucesso." }
+>   C -- Não --> E@{ shape: curv-trap, label: "Nota informada inválida." }
+>   D --> F([Fim])
+>   E --> F([Fim])
+> ~~~
 > - Quando apenas uma das condicionais precisa ser verdadeira:
 > ~~~python
 > idade = int(input("Informe a idade: "))
@@ -445,6 +494,17 @@ else:
 >     print("Usuário não tem os requisitos para entrar.")
 > else:
 >     print("Usuário tem a entrada autorizada.")
+> ~~~
+> Fluxograma:
+> ~~~mermaid
+> graph TD
+>   A([Início]) --> B@{ shape: manual-input, label: "int idade"}
+>   B --> C@{ shape: manual-input, label: "float peso"}
+>   C --> D{Se idade >= 12<br> ou peso >= 70}
+>   D -- Sim --> E@{ shape: curv-trap, label: "Usuário não tem os requisitos para entrar." }
+>   D -- Não --> F@{ shape: curv-trap, label: "Usuário tem a entrada autorizada." }
+>   E --> G([Fim])
+>   F --> G([Fim])
 > ~~~
 
 ### match...case

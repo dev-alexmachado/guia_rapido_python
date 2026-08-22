@@ -53,20 +53,12 @@ Para criar um novo projeto, as opções são:
 > Para este guia, vamos prosseguir com a 1ª opção.
 
 A estrutura de diretórios do seu projeto deverá inicialmente se parecer com esta:
-~~~mermaid
----
-config:
-    treeView:
-        showIcons: true
-        defaultIconPack: material-icon-theme
-        extensionIcons:
-            .py: python
----
-treeView-beta
-    projeto_flask/
-        .venv/
-        app.py
-~~~
+```emoji
+projeto-flask/
+├── .venv/
+└── app.py
+```
+![Flask Início](../img/flask-inicio.svg)
 
 ## Hello World em Flask
 
@@ -138,6 +130,16 @@ Crie dentro da pasta `templates` um arquivo chamado `index.html`. Segue um exemp
 </body>
 </html>
 ~~~
+
+A estrutura de pastas nesse momento deve ficar assim:
+```
+projeto-flask/
+├── .venv/
+├── templates/
+│   └── index.html
+└── app.py
+```
+![Projeto Flask com index](../img/flask-com-index-html.svg)
 
 Então abra o arquivo `app.py` e faça o seguinte código:
 ~~~python
@@ -321,6 +323,19 @@ Crie dentro da pasta **templates** os seguintes arquivos:
 > [!IMPORTANT]
 > O `base.html` servirá de esqueleto padrão para todas as páginas HTML da sua aplicação, e a estrutura de todas as páginas seguirão ela.
 
+Sua estrutura deverá ficar assim:
+```
+projeto-flask/
+├── .venv/
+├── templates/
+│   ├── base.html
+│   ├── footer.html
+│   ├── header.html
+│   └── index.html
+└── app.py
+```
+![Flask Modulzrização](../img/flask-modularizacao.svg)
+
 Código-fonte de `base.html`:
 ~~~html
 <!doctype html>
@@ -451,6 +466,23 @@ Para usar o css:
 1. Crie a pasta **static** dentro da pasta do projeto no mesmo diretório da pasta **templates** (se já não tiver criado).
 2. Abra a pasta **static**, e dentro dela crie a pasta **css**.
 3. Abra a pasta **css**, e dentro dela crie o arquivo `estilo.css`.
+
+A estrutura de pastas deve ficar assim:
+```
+projeto-flask/
+├── .venv/
+├── static/
+│   └── css/
+│       └── estilo.css
+├── templates/
+│   ├── base.html
+│   ├── footer.html
+│   ├── form.html
+│   ├── header.html
+│   └── index.html
+└── app.py
+```
+![CSS no Flask](../img/css-no-flask.svg)
 
 Exemplo de código-fonte css:
 ~~~css
@@ -590,6 +622,31 @@ pyinstaller --onefile --noconsole --name "NomeDoMeuApp" --icon "meu_icone.ico" -
 
 > [!NOTE]
 > Observe que serão criadas duas novas pastas durante a geração do executável: `build` e `dist`. O executável será criado dentro da pasta `dist`, mas você pdoerá mover o arquivo dessa pasta e jogá-lo para qualquer outra pasta normalmente.
+
+Estrutura de pastas e arquivos:
+```
+projeto-flask/
+├── .venv/
+├── build/
+├── dist/
+│   └── app.exe
+├── static/
+│   ├── css/
+│   │   └── estilo.css
+│   └── img/
+│       ├── foto.png
+│       └── imagem.png
+├── templates/
+│   ├── base.html
+│   ├── footer.html
+│   ├── form.html
+│   ├── header.html
+│   └── index.html
+├── .gitignore
+├── app.py
+└── requirements.txt
+```
+![Projeto Flask Final](../img/flask-final.svg)
 
 ---
 

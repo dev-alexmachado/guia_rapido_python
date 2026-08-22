@@ -95,6 +95,19 @@ graph TD
 
 ### Inserir itens na lista
 
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B[/Entrada lista:<br>nomes/]
+    B --> C[/Entrada String:<br>novo_nome/]
+    C --> D[Adiciona novo_nome na lista]
+    D --> E[Obter próximo elemento de 'nomes']
+    E --> F{Existe elemento?}
+    F -- Sim --> G[nome = elemento]
+    G --> E
+    F -- Não --> H([Fim])
+~~~
+
 Para inserir itens em uma lista já existente:
 ~~~python
 nomes = ["Fulano", "Cicrano", "Beltrano"]
@@ -123,14 +136,32 @@ for i, nome in enumerate(nomes):
 ~~~
 
 Para inserir vários itens em uma lista vazia:
+
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B[nomes = lista vazia]
+    B --> C@{ shape: manual-input, label: "novo_nome" }
+    C --> D{Se novo_nome não for nulo}
+    D -- Não é nulo --> E[Adiciona novo_nome na lista]
+    E --> C
+    D -- É nulo --> F[i = 1]
+    F --> G[Obter próximo elemento de nomes]
+    G --> H{Existe elemento?}
+    H -- Sim --> I@{ shape: curv-trap, label: "i & 'º nome inserido: ' & nome" }
+    I --> J[i+1]
+    J --> G
+    H -- Não --> K([Fim])
+~~~
+
+Código-fonte:
 ~~~python
 # lista vazia
 nomes = []
 
 while True:
     novo_nome = input("Informe novo nome ou deixe em branco para finalizar: ").strip().title()
-    nomes.append(novo_nome)
-    continue if novo_nome else break
+    nomes.append(novo_nome) if novo_nome else break
 
 # exibe a lista completa
 for i, nome in enumerate(nomes, start=1):
@@ -138,6 +169,18 @@ for i, nome in enumerate(nomes, start=1):
 ~~~
 
 ### Ordenar uma lista
+
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B[/nomes = lista/]
+    B --> C[Ordena lista]
+    C --> D[Obter próximo elemento de nomes]
+    D --> E{Existe elemento?}
+    E -- Sim --> F@{ shape:curv-trap, label: "nome" }
+    F --> D
+    E -- Não --> G([Fim])
+~~~
 
 Para ordenar uma lista de strings em ordem alfabética:
 ~~~python
@@ -148,7 +191,7 @@ nomes.sort()
 
 # exibindo a lista ordenada
 for nome in nomes:
-    print(nomes)
+    print(nome)
 ~~~
 
 Para ordenar uma lista de strings em ordem inversa:
@@ -163,6 +206,18 @@ for nome in nomes:
 > Alterar a ordem dos itens da lista também altera o valor de sua posição.
 
 ### Pesquisar por um item da lista
+
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B[/nomes = lista/]
+    B --> C@{ shape: manual-input, label: "nome" }
+    C --> D{Nome existe em nomes?}
+    D -- Sim --> E@{ shape: curv-trap, label: "nome" }
+    D -- Não --> F@{ shape:curv-trap, label: "nome & ' não encontrado.'" }
+    E --> G([Fim])
+    F --> G([Fim])
+~~~
 
 Para verificar se um valor existe em uma lista:
 ~~~python
@@ -203,6 +258,19 @@ print(f"{nome} foi encontrado {quantidade} vezes na lista.")
 
 ### Alterar um item da lista
 
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B[/nomes = lista/]
+    B --> C[/Indice da lista/]
+    C --> D@{ shape: manual-input, label: "novo valor do item da lista" }
+    D --> E[Obter próximo item de nomes]
+    E --> F{Item existe?}
+    F -- Sim --> G@{ shape: curv-trap, label: "nome" }
+    G --> E
+    F -- Não --> H([Fim])
+~~~
+
 Para mudar o valor de uma posição específica:
 ~~~python
 nomes = ["Fulano", "Cicrano", "Beltrano"]
@@ -214,6 +282,19 @@ for nome in nomes:
 ~~~
 
 ### Excluir item da lista
+
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B[/nomes = lista/]
+    B --> C[/Posição do item da lista/]
+    C --> D[Deleta item desejado da lista]
+    D --> E[Obtem próximo item da lista]
+    E --> F{nome existe em nomes?}
+    F -- Sim --> G@{ shape: curv-trap, label: "nome" }
+    G --> E
+    F -- Não --> H([Fim])
+~~~
 
 Para deletar uma posição específica:
 ~~~python

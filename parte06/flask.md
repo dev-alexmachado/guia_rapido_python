@@ -52,6 +52,22 @@ Para criar um novo projeto, as opções são:
 > [!IMPORTANT]
 > Para este guia, vamos prosseguir com a 1ª opção.
 
+A estrutura de diretórios do seu projeto deverá inicialmente se parecer com esta:
+~~~mermaid
+---
+config:
+    treeView:
+        showIcons: true
+        defaultIconPack: material-icon-theme
+        extensionIcons:
+            .py: python
+---
+treeView-beta
+    projeto_flask/
+        .venv/
+        app.py
+~~~
+
 ## Hello World em Flask
 
 Para criar seu primeiro programinha em Flask, abra o arquivo `app.py` e digite o seguinte código:

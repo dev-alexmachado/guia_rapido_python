@@ -193,8 +193,8 @@ classDiagram
     class IConta {
         <<interface>>
         +consultar_dados() void
-        +depositar(valor) float
-        +sacar(valor) float
+        +depositar(float valor) float
+        +sacar(float valor) float
     }
 
     class Conta {
@@ -279,7 +279,7 @@ classDiagram
     class Pessoa {
         -String nome
         +nome() String
-        +nome(nome) void
+        +nome(String nome) void
     }
 ~~~
 
@@ -332,13 +332,13 @@ classDiagram
         -String email
         -String profissao
         +nome() String
-        +nome(nome) void
+        +nome(String nome) void
         +cpf() String
-        +cpf(cpf) void
+        +cpf(String cpf) void
         +email() String
-        +email(email) void
+        +email(String email) void
         +profissao() String
-        +profissao(profissao) void
+        +profissao(String profissao) void
         +cumprimentar() String
     }
 
@@ -348,13 +348,13 @@ classDiagram
         -float peso
         -float altura
         +olhos() String
-        +olhos(olhos) void
+        +olhos(String olhos) void
         +tipo_sanguineo() String
-        +tipo_sanguineo(tipo_sanguineo) void
+        +tipo_sanguineo(String tipo_sanguineo) void
         +peso() float
-        +peso(peso) void
+        +peso(float peso) void
         +altura() float
-        +altura(altura) void
+        +altura(float altura) void
         +mostrar_fisico() String
     }
 
@@ -489,6 +489,26 @@ if __name__ == "__main__":
 > Na associação, as classes possuem relação entre si, mas podem existir de forma independente uma da outra.
 
 Exemplo de associação entre uma classe `Endereco` e `Pessoa`:
+
+Diagrama de Classes:
+~~~mermaid
+classDiagram
+    class Endereco {
+        -String rua
+        -String cidade
+        +obter_endereco() String
+    }
+    class Pessoa {
+        -String nome
+        -String endereco
+        +apresentar() void
+        +trocar_endereco(Endereco novo_endereco) void
+    }
+
+    Pessoa --> Endereco : possui
+~~~
+
+Código-fonte:
 ~~~python
 class Endereco:
     def __init__(self, rua, cidade):
@@ -537,6 +557,25 @@ if __name__ == "__main__":
 > Uma classe possui outra classe como parte essencial dela. Se o objeto principal for destruído, o objeto da outra classe também perde sentido.
 
 Exemplo de composição entre as classes `Motor` e `Carro`:
+
+Fluxograma:
+~~~mermaid
+classDiagram
+    class Motor {
+        -int potencia
+        +info() String
+    }
+
+    class Carro {
+        -String modelo
+        -Motor motor
+        +detalhes() String
+    }
+
+    Carro "1" *-- "1" Motor : composto por
+~~~
+
+Código-fonte:
 ~~~python
 class Motor:
     def __init__(self, potencia):
@@ -568,6 +607,26 @@ if __name__ == "__main__":
 > Na agregação, uma classe possui outra classe, mas essa outra classe pode existir independentemente.
 
 Exemplo de agregação entre as classes `Departamento` e `Empresa`:
+
+Fluxograma:
+~~~mermaid
+classDiagram
+    class Departamento {
+        -String nome
+        +get_nome() String
+    }
+
+    class Empresa {
+        -String nome
+        -Departamento departamento
+        +detalhes() String
+    }
+
+    Empresa "1" o-- "1" Departamento : possui
+
+~~~
+
+Código-fonte:
 ~~~python
 class Departamento:
     def __init__(self, nome):
@@ -602,6 +661,25 @@ if __main__ == "__main__":
 > Na dependência, uma classe utiliza outra classe temporariamente, mas não a mantém como atributo principal.
 
 Exemplo de dependência entre as classes `Calculadora` e `Pedido`:
+
+Fluxograma:
+~~~mermaid
+classDiagram
+    class Calculadora {
+        +somar(int a, int b) int
+    }
+
+    class Pedido {
+        -int valor1
+        -int valor2
+        +calcular_total() int
+    }
+
+    Pedido ..> Calculadora : usa
+    
+~~~
+
+Código-fonte:
 ~~~python
 class Calculadora:
     def somar(self, a, b):

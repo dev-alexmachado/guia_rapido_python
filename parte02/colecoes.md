@@ -71,6 +71,19 @@ for n in numeros:
     print(n)
 ~~~
 
+Fluxograma:
+~~~mermaid
+graph TD
+    A([Início]) --> B[/numeros = 1,2,3,4,5/]
+    B --> C[Obter próximo elemento de 'numeros']
+    C --> D{Existe elemento?}
+    D -- Sim --> E[n = elemento]
+    E --> F@{ shape: curv-trap, label: n }
+    F --> C
+    D -- Não --> G([Fim])
+
+~~~
+
 > [!TIP]
 > É possível percorrer os caracteres de uma string como se fosse uma lista. Veja:
 > ~~~python

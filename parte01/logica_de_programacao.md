@@ -175,6 +175,14 @@ nome = "Alex Machado"
 print(nome)
 ~~~
 
+Fluxograma:
+~~~mermaid
+flowchart TD
+    A([Início]) --> B[/Entrada String:<br>nome = "Alex Machado"/]
+    B --> C@{ shape: curv-trap, label: "nome" }
+    C --> D([Fim])
+~~~
+
 > [!NOTE]
 > O padrão de nomenclatura de variáveis em Python é o ***snake_case***, em que se separa duas palavras ou mais por sinal de ***underscore*** (`_`). Exemplo: `nome_completo` é um nome de variável válido.
 

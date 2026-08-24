@@ -21,7 +21,7 @@
 10. [Estruturas de decisão](#estruturas-de-decisão)<br>
     10.1 [if...else](#ifelse)<br>
     10.2 [elif](#elif)<br>
-    10.3 [Operadores booleanos](#operadores-booleanos<br>)
+    10.3 [Operadores booleanos](#operadores-booleanos)<br>
     10.4 [match...case](#matchcase)<br>
     10.5 [Tratamento de exceção](#tratamento-de-exceção)<br>
 11. [Laços de repetição](#laços-de-repetição)<br>

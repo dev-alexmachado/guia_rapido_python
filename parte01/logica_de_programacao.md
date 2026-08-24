@@ -21,8 +21,9 @@
 10. [Estruturas de decisão](#estruturas-de-decisão)<br>
     10.1 [if...else](#ifelse)<br>
     10.2 [elif](#elif)<br>
-    10.3 [match...case](#matchcase)<br>
-    10.4 [Tratamento de exceção](#tratamento-de-exceção)<br>
+    10.3 [Operadores booleanos](#operadores-booleanos<br>)
+    10.4 [match...case](#matchcase)<br>
+    10.5 [Tratamento de exceção](#tratamento-de-exceção)<br>
 11. [Laços de repetição](#laços-de-repetição)<br>
     11.1 [while](#while)<br>
     11.2 [while True](#while-true)<br>
@@ -471,6 +472,8 @@ graph TD
     F --> H([Fim])
     G --> H([Fim])
 ~~~
+
+### Operadores booleanos
 
 > [!TIP]
 > Às vezes, é interessante (e necessário) incluir duas condicionais em uma estrutura do tipo *if...else*. Se for o caso, você precisa decidir se as duas condicionais precisam ser verdadeiras ou se somente uma delas pode ser considerada verdadeira. Veja:

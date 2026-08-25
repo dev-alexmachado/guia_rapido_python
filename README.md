@@ -5,7 +5,7 @@
 </p>
 
 >[!IMPORTANT]
-> Esse tutorial é destinado para máquinas com o Sistema Operacional Windows 10 ou superior.
+> Esse tutorial é destinado para máquinas com o Sistema Operacional Windows 10 ou superior e Python 3.11 ou suerior.
 
 ## Sumário
 

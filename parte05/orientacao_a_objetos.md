@@ -19,8 +19,7 @@
 
 ## Classe Python
 
-> [!NOTE]
-> No paradigma da Orientação a Objetos, o programa é dividido em blocos menores chamados **classes**, que por sua vez são subdivididos em atributos (valores) e métodos (ações). A partir delas, são criados os objetos.
+No paradigma da Orientação a Objetos, o programa é dividido em blocos menores chamados **classes**, que por sua vez são subdivididos em atributos (valores) e métodos (ações). A partir delas, são criados os objetos.
 
 > [!IMPORTANT]
 > Alguns detalhes importantes sobre classes Python:

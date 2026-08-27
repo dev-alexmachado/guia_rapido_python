@@ -167,15 +167,11 @@ projeto_django/
 > [!WARNING]
 > Diferentemente dos outros programas Python, aqui a execução da aplicação não acontece ao abrir o arquivo principal e apertar `Ctrl+F5`. Continue lendo para ver como executar uma aplicação Django.
 
-1. Abra o terminal (`Ctrl+J`) e use-o para navegar até a pasta do projeto:
-~~~
-cd nome-do-projeto
-~~~
-2. Depois execute o comando abaixo para iniciar o servidor:
+1. Execute o comando abaixo para iniciar o servidor:
 ~~~
 py manage.py runserver
 ~~~
-3. Isso irá startar o servidor local na porta **8000**. Abra o navegador de sua preferência e acesse **http://localhost:8000**.
+2. Isso irá startar o servidor local na porta **8000**. Abra o navegador de sua preferência e acesse **http://localhost:8000**.
 
 Se tudo der certo, o navegador irá mostrar uma tela com um foguete e um texto mostrando que o Django está funcionando corretamente.
 
@@ -411,6 +407,19 @@ INSTALLED_APPS = [
 ]
 ~~~
 
+Ou assim:
+~~~python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'apps.nome_do_app', # novo app
+]
+~~~
+
 > [!WARNING]
 > Se caso você tiver criado seu app dentro da pasta `apps` sugerida anteriormente, use em `INSTALLED_APPS` o código `apps.nome_do_app` ao invés de `nome_do_app`.<br>
 > Se mesmo assim o sistema não reconhecer o app, abra o arquivo `apps.py` dentro da pasta da aplicação em questão, e altere o comando `name = 'nome_do_app'` para `name = apps.nome_do_app`, e acrescente `default_auto_field = 'django.db.models.BigAutoField'` no `class`. Ficará assim:
@@ -583,6 +592,17 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('nome_do_app.urls')),
+]
+~~~
+
+Ou então:
+~~~python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('apps.nome_do_app.urls')),
 ]
 ~~~
 

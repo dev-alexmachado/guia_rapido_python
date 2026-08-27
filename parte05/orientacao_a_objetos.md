@@ -499,7 +499,7 @@ classDiagram
     }
     class Pessoa {
         -String nome
-        -String endereco
+        -Endereco endereco
         +apresentar() void
         +trocar_endereco(Endereco novo_endereco) void
     }

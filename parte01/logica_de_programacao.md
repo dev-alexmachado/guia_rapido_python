@@ -91,6 +91,20 @@ Caso precise, você pode desativar a **venv** executando no terminal o comando:
 deactivate
 ~~~
 
+> [!WARNING]
+> Ao tentar ativar a `venv`, o terminal pode acusar o seguinte erro:
+> 
+> <span style="color: #f00">.venv\Scripts\activate : O arquivo C:\Users\Dev\Workspaces\Python\3.13\testes.venv\Scripts\Activate.ps1 não pode ser carregado porque a execução de scripts foi desabilitada neste sistema.</span>
+> 
+> O erro ocorre porque a execução de scripts do PowerShell está desabilitada e o script activate.ps1 do seu ambiente virtual Python está sendo impedido de ser executado. Para corrigir, você precisa alterar a política de execução do PowerShell, permitindo a execução de scripts, ou desativar temporariamente a proteção.
+> 
+> Para corrigí-lo, siga os passos abaixo:
+> 1. **Abrir o PowerShell como administrador**: Clique no botão Iniciar do Windows, procure por **PowerShell** e clique com o botão direito do mouse no resultado e selecione **Executar como administrador**.
+> 2. **Alterar a política de execução**: Digite o seguinte comando no PowerShell: `Set-ExecutionPolicy RemoteSigned`, e depois aperte `Enter`. Este comando permite que o PowerShell carregue e execute scripts assinados digitalmente.
+> 3. **Confirme a alteração**: O PowerShell perguntará se você deseja alterar a política de execução. Digite `S` para confirmar ou `A` para confirmar tudo e pressione `Enter`.
+> 4. **Recomeçar o PowerShell**: Feche a janela do PowerShell e abra uma nova janela para que as mudanças da política de execução surtam efeito.
+> 5. **Executar o comando de ativação do ambiente virtual**: Execute o comando `.venv\Scripts\activate` novamente.
+
 ## Arquivos Python
 
 > [!IMPORTANT]

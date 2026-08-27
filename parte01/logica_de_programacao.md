@@ -60,7 +60,7 @@
 
 ## Ambiente Virtual
 
-> [!IMPORTANT]
+> [!NOTE]
 > O ambiente virtual Python, também conhecido como **.venv**, é uma pasta criada dentro do projeto que guarda uma cópia isolada do interpretador Python, junto com as biliotecas que o projeto precisa.
 >
 > Ela é utilizada para:
@@ -107,7 +107,7 @@ deactivate
 
 ## Arquivos Python
 
-> [!IMPORTANT]
+> [!TIP]
 > Os programas Python são executados em arquivos com a extensão `.py`. Exemplo: `main.py`; `app.py`.
 
 ## Saída de dados

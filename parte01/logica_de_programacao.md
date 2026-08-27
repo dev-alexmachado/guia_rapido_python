@@ -94,7 +94,7 @@ deactivate
 > [!WARNING]
 > Ao tentar ativar a `venv`, o terminal pode acusar o seguinte erro:
 > 
-> <span style="color: #f00">.venv\Scripts\activate : O arquivo C:\Users\Dev\Workspaces\Python\3.13\testes.venv\Scripts\Activate.ps1 não pode ser carregado porque a execução de scripts foi desabilitada neste sistema.</span>
+> `.venv\Scripts\activate : O arquivo C:\Users\Dev\Workspaces\Python\3.13\testes.venv\Scripts\Activate.ps1 não pode ser carregado porque a execução de scripts foi desabilitada neste sistema.`
 > 
 > O erro ocorre porque a execução de scripts do PowerShell está desabilitada e o script activate.ps1 do seu ambiente virtual Python está sendo impedido de ser executado. Para corrigir, você precisa alterar a política de execução do PowerShell, permitindo a execução de scripts, ou desativar temporariamente a proteção.
 > 

@@ -76,7 +76,7 @@ Para criar um ambiente virtual Python, digite no terminal:
 py -m venv .venv
 ~~~
 
-> [!WARNING]
+> [!IMPORTANT]
 > Após criar o ambiente virtual **.venv**, é necessário ativá-lo, senão existe o risco das bibliotecas do projeto irem parar no Python global, deixando o Sistema Operacional mais pesado. **Nunca se esqueça disso!**
 
 Para ativar o ambiente virtual, digite no terminal:

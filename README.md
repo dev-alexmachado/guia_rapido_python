@@ -1,13 +1,13 @@
-# Guia Rápido de Python
+# 🐍 Guia Rápido de Python
 
 <p align="center">
     <img src="img/python.png" alt="Python logo" width="100px">
 </p>
 
 >[!IMPORTANT]
-> Esse tutorial é destinado para máquinas com o Sistema Operacional Windows 10 ou superior e Python 3.11 ou superior.
+> Esse tutorial é destinado para máquinas com o Sistema Operacional **Windows 10** ou superior e **Python 3.11** ou superior.
 
-## Sumário
+## 📖 Sumário
 
 1. [Lógica de Programação](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte01/logica_de_programacao.md)
 2. [Coleções](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte02/colecoes.md)

@@ -2,6 +2,11 @@
 
 [Clique aqui para retornar](https://github.com/dev-alexmachado/guia_rapido_python)
 
+## Versão
+
+<img alt="Static Badge" src="https://img.shields.io/badge/3.1.3-000?style=plastic&logo=flask&logoColor=fff&label=Flask&labelColor=44abbf">
+
+
 ## Sumário
 
 1. [Introdução](#introdução)

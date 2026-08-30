@@ -2,6 +2,10 @@
 
 [Clique aqui para retornar](https://github.com/dev-alexmachado/guia_rapido_python)
 
+## Versão
+
+<img alt="Static Badge" src="https://img.shields.io/badge/6.1-333?style=plastic&logo=django&logoColor=fff&label=Django&labelColor=092E20">
+
 ## Sumário
 
 1. [Instrodução](#introdução)

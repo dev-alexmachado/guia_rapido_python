@@ -2,6 +2,12 @@
 
 <p align="center">
     <img src="img/python.png" alt="Python logo" width="100px">
+    <br>
+    <br>
+    <img alt="Static Badge" src="https://img.shields.io/badge/3.11.0-FFD43B?style=plastic&logo=python&logoColor=646464&label=Python&labelColor=306998">
+    <img alt="Static Badge" src="https://img.shields.io/badge/10-fff?style=plastic&logo=windows&logoColor=646464&label=Windows&labelColor=0078D6">
+    <img alt="Static Badge" src="https://img.shields.io/badge/3.1.3-000?style=plastic&logo=flask&logoColor=fff&label=Flask&labelColor=44abbf">
+    <img alt="Static Badge" src="https://img.shields.io/badge/6.1-333?style=plastic&logo=django&logoColor=fff&label=Django&labelColor=092E20">
 </p>
 
 >[!IMPORTANT]

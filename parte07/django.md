@@ -6,6 +6,11 @@
 
 <img alt="Static Badge" src="https://img.shields.io/badge/6.1-333?style=plastic&logo=django&logoColor=fff&label=Django&labelColor=092E20">
 
+### SGBD
+
+<img alt="Static Badge" src="https://img.shields.io/badge/3.53.0-003b57?style=plastic&logo=sqlite&logoColor=fff&label=SQLite&labelColor=%230f80cc">
+<img alt="Static Badge" src="https://img.shields.io/badge/8.4.0-F29111?style=plastic&logo=mysql&logoColor=fff&label=MySQL&labelColor=00758F">
+
 ## Sumário
 
 1. [Instrodução](#introdução)

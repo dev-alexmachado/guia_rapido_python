@@ -6,8 +6,12 @@
 
 1. [Algoritmo](#algoritmo)
 2. [Preparando o VSCode para o Python](#preparando-o-vscode-para-o-python)<br>
-    2.1 [Extensões obrigatórias](#extensões-obrigatórias)<br>
-    2.2 [Extensões recomendadas](#extensões-recomendadas)<br>
+    2.1 [Instalando Python](#instalando-python)<br>
+    2.2 [Instalado uma versão diferente](#instalado-uma-versão-diferente)<br>
+    2.3 [Atualizando para uma versão mais recente](#atualizando-para-uma-versão-mais-recente)<br>
+    2.4 [Verificar as versões instaladas e ver qual versão global](#verificar-as-versões-instaladas-e-ver-qual-versão-global)<br>
+    2.4 [Extensões obrigatórias](#extensões-obrigatórias)<br>
+    2.5 [Extensões recomendadas](#extensões-recomendadas)<br>
 3. [Ambiente Virtual](#ambiente-virtual)
 4. [Arquivos Python](#arquivos-python)
 5. [Saída de dados](#saída-de-dados)
@@ -36,6 +40,31 @@
 > **Algoritmo** é o nome que se dá a solução de um problema, qualquer um que ele seja. É constituído de uma série de instruções passo-a-passo, que visam alcançar um determinado objetivo. Como exemplos, podemos pegar qualquer tutorial disponível na Internet, como este mesmo. Uma receita de bolo também pode ser considerado um algoritmo.
 
 ## Preparando o VSCode para o Python
+
+### Instalando Python
+
+1. Acesse o site **https://python.org/downloads**.
+2. Baixe o **Python install manager**.
+3. Siga as instruções do instalador.
+4. O Python instalado será a versão mais recente.
+
+### Instalado uma versão diferente
+
+~~~
+py install <versão>
+~~~
+
+### Atualizando para uma versão mais recente
+
+~~~
+py install --update
+~~~
+
+### Verificar as versões instaladas e ver qual versão global
+
+~~~
+py list
+~~~
 
 > [!TIP]
 > É interessante que antes de começar a configurar o VSCode para o desenvolvimento, crie um Perfil específico para trabalhar com a linguagem Python:

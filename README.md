@@ -25,3 +25,71 @@
 6. [Flask](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte06/flask.md)
 7. [Django](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte07/django.md)
 8. [Deploy](https://github.com/dev-alexmachado/guia_rapido_python/blob/main/parte08/deploy.md)
+
+## 🛣️ Caminho Python
+
+~~~mermaid
+graph TD
+    Python(Python)
+    IA(IA)
+
+    subgraph Programação
+        direction TD
+        Games(Games)
+        Apps(Apps)
+        Hacking(Hacking)
+        Robótica(Robótica)
+        BioInfo(Bio Informática)
+        Automação(Automação)
+        IoT(Internet das Coisas)
+        BioHack(Bio Hacking)
+
+        subgraph Dispositivos
+            subgraph Placas
+                Arduino(Arduino)
+                RP(Raspberry Pi)
+                SP32(SP32)
+            end
+
+            subgraph Usuários
+                Desktop(Desktop)
+                Mobile(Mobile)
+                Web(Web)
+            end
+        end
+
+        Usuários --> Apps
+        Usuários --> Games
+        Dispositivos --> Hacking
+        Dispositivos --> IoT
+        IoT <--> Hacking
+        Apps <--> Hacking
+        Placas --> Robótica
+        Robótica --> Automação
+        IoT --> Automação
+        BioInfo --> BioHack
+        IoT --> BioHack
+        Hacking --> BioHack
+    end
+
+    subgraph ND [Notebooks e Dashboards]
+        direction TD
+        AD(Análise de Dados)
+        WS(Web Scrapping)
+        CD(Ciência de Dados)
+        PowerBI(PowerBI)
+
+        AD --> PowerBI
+        AD --> WS
+        WS --> CD
+        AD --> CD
+        PowerBI --> CD
+    end
+
+    Python --> Programação
+    Python --> IA
+    IA --> Programação
+    IA --> ND
+    Python --> ND
+    Web --> ND
+~~~

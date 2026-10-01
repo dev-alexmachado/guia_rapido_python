@@ -39,7 +39,8 @@
     8.3 [View](#view)<br>
 9. [CRUD](#crud)<br>
     9.1 [Create: criar/cadastrar](#create-criarcadastrar)<br>
-    9.2 [Read: pesquisar/listar](#read-pesquisarlistar)
+    9.2 [Read: pesquisar/listar](#read-pesquisarlistar)<br>
+10. [Autenticação do usuário](#autenticação-do-usuário)
 
 ## Introdução
 
@@ -830,6 +831,292 @@ Abra o `index.html` em `templates` e faça o seguinte código:
 ~~~
 
 Execute o servidor com `py manage.py runserver` e acesse **http://localhost:8000** para testar.
+
+## Autenticação do usuário
+
+Vimos que o Django possui uma tela de administração do sistema, com direito a autenticação do usuário. Mas ela é destinada apenas para o administrador do sistema, que por sua vez não será o usuário final. Logo, devemos criar o nosso próprio sistema de autenticação do usuário, caso queiramos limitar o acesso ao sistema.
+
+Primeiramente, considere a seguinte estrutura:
+
+```
+projeto-django/
+├── .venv/
+├── apps/
+│   └── seu_app/
+├── config/
+├── manage.py
+├── banco.db
+└── requirements.txt
+
+```
+[![login estrutura inicial](../img/login01.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
+A primeira coisa a se fazer é separar as regras de negócio. Ou seja: seu app é uma coisa. O login é outra coisa. Portanto, vamos criar um novo app só para executar o login:
+~~~
+py manage.py startapp login ./apps/login
+~~~
+
+Considerando apenas o novo app, seu projeto terá agora a seguinte estrutura:
+```
+projeto-django/
+├── .venv/
+├── apps/
+│   ├── seu_app/
+│   └── login/
+│       ├── migrations/
+│       ├── __init__.py
+│       ├── admin.py
+│       ├── apps.py
+│       ├── models.py
+│       ├── tests.py
+│       └── views.py
+├── config/
+├── manage.py
+├── banco.db
+└── requirements.txt
+
+```
+[![login app](../img/login02.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
+Crie um HTML contendo o código-fonte de um formulário com Usuário e Senha como campos. Crie uma pasta chamada ***templates*** para guardar estes arquivos. Use um arquivo html para a base, se necessário. Também crie um HTML para um formulário de cadastro de usuário. Veja abaixo o exemplo de um código-fonte para a base e outro para login, seguido da estrutura de pastas necessária para a execução:
+
+#### base-login-.html
+~~~html
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta name="author" content="Alex Machado Ribeiro">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Aplicação Django{% endblock %}</title>
+  </head>
+  <body>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
+~~~
+
+#### login.html
+~~~html
+{% extends 'base-login.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<h1>Login</h1>
+{% if error %}<p>{{ error }}</p>{% endif %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <label for="username">Nome de usuário:</label><br>
+    <input type="text" name="username" id="username" required>
+    <br><br>
+    <label for="password">Senha:</label><br>
+    <input type="password" name="password" id="password" required>
+    <br><br>
+    <button type="submit">Entrar</button>
+</form>
+<p>Não tem uma conta? <a href="{% url 'cadastrar' %}">Clique aqui para se cadastrar.</a></p>
+{% endblock %}
+~~~
+
+#### cadastrar.html
+~~~html
+{% extends 'base-login.html' %}
+{% block title %}Cadastrar{% endblock %}
+{% block content %}
+<h1>Cadastrar</h1>
+{% if error %}<p>{{ error }}</p>{% endif %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <label for="username">Novo usuário:</label><br>
+    <input type="text" name="username" id="username" required>
+    <br><br>
+    <label for="password">Senha:</label><br>
+    <input type="password" name="password" id="password" required>
+    <br><br>
+    <label for="confirm_password">Confirme a Senha:</label><br>
+    <input type="password" name="confirm_password" id="confirm_password" required>
+    <br><br>
+    <button type="submit">Cadastrar</button>
+</form>
+<p>Já tem uma conta? <a href="{% url 'login' %}">Clique aqui para fazer login.</a></p>
+{% endblock %}
+~~~
+
+#### Estrutura de arquivos
+```
+projeto-django/
+├── .venv/
+├── apps/
+│   ├── seu_app/
+│   └── login/
+│       ├── migrations/
+│       ├── __init__.py
+│       ├── admin.py
+│       ├── apps.py
+│       ├── models.py
+│       ├── tests.py
+│       ├── views.py
+│       └── templates/
+│           ├── base-login.html
+│           └── login.html
+├── config/
+├── manage.py
+├── banco.db
+└── requirements.txt
+```
+[![templates](../img/login03.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
+Agora, o próximo passo é criar as *views* que permitem o cadastro de um novo usuário e também o de login. Além disso, precisaremos também configurar o **logout** do usuário do sistema, para que ele possa sair com segurança. Abra o arquivo `views.py` e faça o seguinte código-fonte no arquivo:
+
+#### login/views.py
+~~~python
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
+
+# Create your views here.
+
+# autentica o usuário
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            auth_login(request, user)
+            return redirect('home')
+
+        return render(request, 'login.html', {
+            'error': 'Nome de usuário ou senha inválidos.',
+        })
+
+    return render(request, 'login.html')
+
+# cadastra um novo usuário
+def cadastrar(request):
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+        confirm_password = request.POST.get('confirm_password', '')
+
+        if password != confirm_password:
+            return render(request, 'cadastrar.html', {
+                'error': 'As senhas não coincidem.',
+            })
+
+        if User.objects.filter(username=username).exists():
+            return render(request, 'cadastrar.html', {
+                'error': 'Este nome de usuário já está cadastrado.',
+            })
+
+        User.objects.create_user(username=username, password=password)
+        return redirect('login')
+
+    return render(request, 'cadastrar.html')
+
+# faz logout do usuário
+def logout(request):
+    auth_logout(request)
+    return redirect('login')
+~~~
+
+Agora, dentro da pasta do app *login*, crie um novo arquivo chamado `urls.py`. A nova estrutura de arquivos ficará assim:
+```
+projeto-django/
+├── .venv/
+├── apps/
+│   ├── seu_app/
+│   └── login/
+│       ├── migrations/
+│       ├── __init__.py
+│       ├── admin.py
+│       ├── apps.py
+│       ├── models.py
+│       ├── tests.py
+│       ├── views.py
+│       ├── templates/
+│       │   ├── base-login.html
+│       │   └── login.html
+│       └── urls.py
+├── config/
+├── manage.py
+├── banco.db
+└── requirements.txt
+
+```
+[![login/urls.py](../img/login04.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
+Insira o seguinte código-fonte em `urls.py` do app `login`:
+~~~python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.login, name='login'),
+    path('cadastrar/', views.cadastrar, name='cadastrar'),
+]
+~~~
+
+Saindo do app `login`, vá para o **core** da aplicação (ou `config`, caso tenha configurado assim), e abra o arquivo também chamado `urls.py`. Você deverá encontrar o código-fonte assim:
+~~~python
+# ...comentários
+
+from django.contrib import admin
+from django.urls import path, include
+from apps.login import views as login_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('apps.home.urls')),
+]
+~~~
+
+Nesse código, adicione duas novas linhas, conforme mostrado abaixo:
+~~~python
+from django.contrib import admin
+from django.urls import path, include
+from apps.login import views as login_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('apps.home.urls')),
+    # TODO: adicione as linhas abaixo
+    path('login/', include('apps.login.urls')),
+    path('logout/', login_views.logout, name='logout'),
+]
+~~~
+
+Isso já é o suficiente para fazer o **login** e o **cadastro** funcionarem. Mas ainda precisamos do **logout** e também proteger o acesso ao sistema.
+
+Portanto, vá agora no `seu_app` e abra o arquivo `views.py`. É só acrescentar a anotação `@login_required` em todas as views que forem necessários a autenticação do usuário com login e senha. Veja o exemplo abaixo:
+~~~python
+from django.shortcuts import render
+# TODO: acrescente esse import abaixo
+from django.contrib.auth.decorators import login_required
+
+# Create your views here.
+# TODO: acrescente a anotação abaixo em todas as views que devem ser protegidas
+@login_required
+def home(request):
+    return render(request, 'home.html')
+~~~
+
+Para finalizar, acrescente um botão chamado `Sair` em todas as páginas que precisarem de autenticação para o usuário poder sair do sistema com segurança.
+
+> [!TIP]
+> **Sugestão**: faça um link chamado `Sair` no `header.html` ao invés do botão. Veja no código-fonte abaixo como:
+
+#### header.html
+~~~html
+<header>
+    <h1>Sistema de Login</h1>
+    <p align="right">
+        <a href="{% url 'logout' %}">Sair</a>
+    </p>
+</header>
+~~~
 
 ---
 

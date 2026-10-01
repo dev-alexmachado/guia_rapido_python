@@ -39,8 +39,9 @@
     8.3 [View](#view)<br>
 9. [CRUD](#crud)<br>
     9.1 [Create: criar/cadastrar](#create-criarcadastrar)<br>
-    9.2 [Read: pesquisar/listar](#read-pesquisarlistar)<br>
+    9.2 [Read: pesquisar/listar](#read-pesquisarexibirlistar)<br>
     9.3 [Update: editar/alterar/atualizar](#update-editaralteraratualizar)<br>
+    9.4 [Delete: apagar/excluir/deletar](#delete-apagarexcluirdeletar)
 10. [Autenticação do usuário](#autenticação-do-usuário)
 
 ## Introdução

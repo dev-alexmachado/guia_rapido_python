@@ -40,6 +40,7 @@
 9. [CRUD](#crud)<br>
     9.1 [Create: criar/cadastrar](#create-criarcadastrar)<br>
     9.2 [Read: pesquisar/listar](#read-pesquisarlistar)<br>
+    9.3 [Update: editar/alterar/atualizar](#update-editaralteraratualizar)<br>
 10. [Autenticação do usuário](#autenticação-do-usuário)
 
 ## Introdução
@@ -707,9 +708,9 @@ Abra o terminal no diretório raiz do projeto, execute o servidor com `py manage
 
 Já visto anteriormente, mas iremos revisar aqui:
 - **Create**: criar/cadastrar.
-- **Read**: pesquisar/listar.
-- **Update**: editar/atualizar.
-- **Delete**: apagar/deletar.
+- **Read**: pesquisar/exibir/listar.
+- **Update**: editar/alterar/atualizar.
+- **Delete**: apagar/excluir/deletar.
 
 ### Create: criar/cadastrar
 
@@ -757,10 +758,11 @@ Adicione dentro da pasta do app o arquivo `cadastrar.html` com o seguinte códig
         <label for="cpf">CPF:</label>
         <input type="text" name="cpf" required>
         <br>
-        <label for="altura">CPF:</label>
+        <label for="altura">Altura:</label>
         <input type="number" step="0.01" name="altura" required>
         <br>
-        <label for="data_nascimento">CPF:</label>
+        <label for="data_nascimento">Data de Nascimento:</label>
+        <!-- REVIEW: revisar a linha abaixo -->
         <input type="date" name="data_nascimento" required>
         <br>
         <button type="submit">Cadastrar</button>
@@ -789,7 +791,7 @@ Agora abra o arquivo `header.html` em `templates`, e edite o link para acessar o
 
 Pronto! Agora é só executar o servidor com `py manage.py runserver` e acessar **http://localhost:8000** para testar a aplicação.
 
-### Read: pesquisar/listar
+### Read: pesquisar/exibir/listar
 
 Para este guia, vamos listar todos os usuários cadastrados na Home Page, ou seja, o nosos `index.html` será o **Read**.
 
@@ -821,6 +823,7 @@ Abra o `index.html` em `templates` e faça o seguinte código:
                 {{ pessoa.email }} |
                 {{ pessoa.cpf }} |
                 {{ pessoa.altura }} metros |
+                <!-- REVIEW: revisar a linha abaixo -->
                 {{ data_nascimento }}
             </li>
         {% empty %}
@@ -831,6 +834,318 @@ Abra o `index.html` em `templates` e faça o seguinte código:
 ~~~
 
 Execute o servidor com `py manage.py runserver` e acesse **http://localhost:8000** para testar.
+
+#### Pesquisando por usuários
+
+> [!TIP]
+> Podemos também pedir para o sistema listar apenas alguns usuários específicos, conforme aprenderemos a seguir.
+
+Crie um formulário de pesquisa. Segue o exemplo abaixo para você adicionar no seu `index.html`, por exemplo:
+~~~html
+<form method="GET" action="{% url 'buscar_pessoa' %}">
+    <input type="text" name="buscar" placeholder="Buscar por nome">
+    <button type="submit">Buscar</button>
+</form>
+~~~
+
+Depois, abra a `views.py` da sua aplicação e acrescente a função abaixo:
+~~~python
+# ...código-fonte anterior
+def buscar_pessoa(request):
+    query = request.GET.get('buscar', '')
+    pessoas = Pessoa.objects.filter(nome__icontains=query)
+    return render(request, 'home.html', {'pessoas': pessoas, 'query': query})
+# ...restante do código-fonte
+~~~
+
+Nesse momento, a sua `views.py` deverá estar assim:
+~~~python
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import Pessoa
+
+def index(request):
+    pessoas = Pessoa.objects.all()
+    return render(request, "index.html", {"pessoas": pessoas})
+
+def cadastrar_pessoa(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        email = request.POST.get('email')
+        cpf = request.POST.get('cpf')
+        altura = request.POST.get('altura')
+        data_nascimento = request.POST.get('data_nascimento')
+        Pessoa.objects.create(
+            nome=nome,
+            email=email,
+            cpf=cpf,
+            altura=altura,
+            data_nascimento=data_nascimento
+        )
+        return redirect('index')
+    return render(request, 'cadastrar.html')
+
+def buscar_pessoa(request):
+    query = request.GET.get('buscar', '')
+    pessoas = Pessoa.objects.filter(nome__icontains=query)
+    return render(request, 'home.html', {'pessoas': pessoas, 'query': query})
+~~~
+
+Por fim, abra o arquivo `urls.py` e acrescente a `path` no código, conforme mostrado abaixo:
+~~~python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('cadastrarPessoa/', views.cadastrar_pessoa, name='cadastrar_pessoa'),
+    # TODO: novo path
+    path('buscar/', views.buscar_pessoa, name='buscar_pessoa'),
+]
+
+~~~
+
+### Update: editar/alterar/atualizar
+
+Para alterar os dados de um cadastro já registrado no banco de dados, crie um HTML com um formulário para alterar esses dados.
+
+> [!IMPORTANT]
+> O formulário deverá ser quase idêntico ao formulário de cadastro, já que os dados serão os mesmos. Você pode simplesmente copiar o arquivo de cadastro, colar e renomear, fazendo algumas alterações pontuais no código-fonte, conforme será mostrado a seguir.
+
+Crie um novo arquivo no app chamado `alterar.html`, e faça o seguinte código-fonte:
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <form method="POST" action="{% url 'alterar_pessoa' pessoa.id_pessoa %}">
+        {% csrf_token %}
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" value="{{ pessoa.nome }}" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" value="{{ pessoa.email }}" required>
+        <br>
+        <label for="cpf">CPF:</label>
+        <input type="text" name="cpf" value="{{ pessoa.cpf }}" required>
+        <br>
+        <label for="altura">CPF:</label>
+        <input type="number" step="0.01" name="altura" value="{{ pessoa.altura }}" required>
+        <br>
+        <label for="data_nascimento">CPF:</label>
+        <!-- REVIEW: revisar a linha abaixo -->
+        <input type="date" name="data_nascimento" value="{{ pessoa.data_nascimento }}" required>
+        <br>
+        <button type="submit">Alterar</button>
+    </form>
+{% endblock %}
+~~~
+
+Agora, vá para `index.html` e acrescente `<a href="{% url 'alterar_pessoa' pessoa.id_pessoa %}">Alterar</a>` na lista que exibe os dados. O `index.html` ficará assim:
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <h1>Lista de pessoas</h1>
+    <ul>
+        {% for pessoa in pessoas %}
+            <li>
+                {{ pessoa.id_pessoa }} |
+                {{ pessoa.nome }} |
+                {{ pessoa.email }} |
+                {{ pessoa.cpf }} |
+                {{ pessoa.altura }} metros |
+                <!-- REVIEW: revisar a linha abaixo -->
+                {{ data_nascimento }} |
+                <!-- TODO: acrescente a linha abaixo -->
+                 <a href="{% url 'alterar_pessoa' pessoa.id_pessoa %}">Alterar</a>
+            </li>
+        {% empty %}
+            <li>Nenhuma pessoa cadastrada.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+~~~
+
+Depois, abra `views.py` na pasta da sua aplicação, e acrescente o seguinte método:
+~~~python
+# ...código anterior
+
+def alterar_pessoa(request, id_pessoa):
+    pessoa = Pessoa.objects.get(id_pessoa=id_pessoa)
+    if request.method == 'POST':
+        pessoa.nome = request.POST.get('nome')
+        pessoa.email = request.POST.get('email')
+        pessoa.cpf = request.POST.get('cpf')
+        pessoa.altura = request.POST.get('altura')
+        pessoa.data_nascimento = request.POST.get('data_nascimento')
+        pessoa.save()
+        return redirect('index')  # Redireciona para a página inicial após alteração
+    return render(request, 'alterar.html', {'pessoa': pessoa})
+
+# ...restante do código
+~~~
+
+O código-fonte da `views.py` nesse momento deverá ficar assim:
+~~~python
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import Pessoa
+
+def index(request):
+    pessoas = Pessoa.objects.all()
+    return render(request, "index.html", {"pessoas": pessoas})
+
+def cadastrar_pessoa(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        email = request.POST.get('email')
+        cpf = request.POST.get('cpf')
+        altura = request.POST.get('altura')
+        data_nascimento = request.POST.get('data_nascimento')
+        Pessoa.objects.create(
+            nome=nome,
+            email=email,
+            cpf=cpf,
+            altura=altura,
+            data_nascimento=data_nascimento
+        )
+        return redirect('index')
+    return render(request, 'cadastrar.html')
+
+def buscar_pessoa(request):
+    query = request.GET.get('buscar', '')
+    pessoas = Pessoa.objects.filter(nome__icontains=query)
+    return render(request, 'home.html', {'pessoas': pessoas, 'query': query})
+
+def alterar_pessoa(request, id_pessoa):
+    pessoa = Pessoa.objects.get(id_pessoa=id_pessoa)
+    if request.method == 'POST':
+        pessoa.nome = request.POST.get('nome')
+        pessoa.email = request.POST.get('email')
+        pessoa.cpf = request.POST.get('cpf')
+        pessoa.altura = request.POST.get('altura')
+        pessoa.data_nascimento = request.POST.get('data_nascimento')
+        pessoa.save()
+        return redirect('index')  # Redireciona para a página inicial após alteração
+    return render(request, 'alterar.html', {'pessoa': pessoa})
+~~~
+
+Para finalizar, abra `urls.py` na pasta da aplicação, e acrescente em `urlpatterns`: `path('alterar/<int:id_pessoa>/', views.alterar_pessoa, name='alterar_pessoa'),`. Ficará assim:
+~~~python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('cadastrarPessoa/', views.cadastrar_pessoa, name='cadastrar_pessoa'),
+    path('buscar/', views.buscar_pessoa, name='buscar_pessoa'),
+    # TODO: adicione a linha abaixo
+    path('alterar/<int:id_pessoa>/', views.alterar_pessoa, name='alterar_pessoa'),
+]
+~~~
+
+### Delete: apagar/excluir/deletar
+
+O último item do CRUD é o de deletar registro. Começe acrescentando o link para deletar na página onde fica a sua lista de registros com `<a href="{% url 'alterar_pessoa' pessoa.id_pessoa %}">Alterar</a>`. Veja:
+~~~html
+{% extends 'base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+    <h1>Lista de pessoas</h1>
+    <ul>
+        {% for pessoa in pessoas %}
+            <li>
+                {{ pessoa.id_pessoa }} |
+                {{ pessoa.nome }} |
+                {{ pessoa.email }} |
+                {{ pessoa.cpf }} |
+                {{ pessoa.altura }} metros |
+                <!-- REVIEW: revisar a linha abaixo -->
+                {{ data_nascimento }} |
+                <a href="{% url 'alterar_pessoa' pessoa.id_pessoa %}">Alterar</a> |
+                <!-- TODO: acrescente a linha abaixo -->
+                <a href="{% url 'deletar_pessoa' pessoa.id_pessoa %}">Deletar</a>
+            </li>
+        {% empty %}
+            <li>Nenhuma pessoa cadastrada.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+~~~
+
+Agora, abra a `views.py` da sua aplicação, e acrescente o método abaixo:
+~~~python
+# ...código-fonte anterior
+def deletar_pessoa(request, id_pessoa):
+    pessoa = Pessoa.objects.get(id_pessoa=id_pessoa)
+    pessoa.delete()
+    return redirect('home')  # Redireciona para a página inicial após exclusão
+~~~
+
+Nesse momento, a sua `views.py` deverá ficar assim:
+~~~python
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import Pessoa
+
+def index(request):
+    pessoas = Pessoa.objects.all()
+    return render(request, "index.html", {"pessoas": pessoas})
+
+def cadastrar_pessoa(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        email = request.POST.get('email')
+        cpf = request.POST.get('cpf')
+        altura = request.POST.get('altura')
+        data_nascimento = request.POST.get('data_nascimento')
+        Pessoa.objects.create(
+            nome=nome,
+            email=email,
+            cpf=cpf,
+            altura=altura,
+            data_nascimento=data_nascimento
+        )
+        return redirect('index')
+    return render(request, 'cadastrar.html')
+
+def buscar_pessoa(request):
+    query = request.GET.get('buscar', '')
+    pessoas = Pessoa.objects.filter(nome__icontains=query)
+    return render(request, 'home.html', {'pessoas': pessoas, 'query': query})
+
+def alterar_pessoa(request, id_pessoa):
+    pessoa = Pessoa.objects.get(id_pessoa=id_pessoa)
+    if request.method == 'POST':
+        pessoa.nome = request.POST.get('nome')
+        pessoa.email = request.POST.get('email')
+        pessoa.cpf = request.POST.get('cpf')
+        pessoa.altura = request.POST.get('altura')
+        pessoa.data_nascimento = request.POST.get('data_nascimento')
+        pessoa.save()
+        return redirect('index')  # Redireciona para a página inicial após alteração
+    return render(request, 'alterar.html', {'pessoa': pessoa})
+
+def deletar_pessoa(request, id_pessoa):
+    pessoa = Pessoa.objects.get(id_pessoa=id_pessoa)
+    pessoa.delete()
+    return redirect('home')  # Redireciona para a página inicial após exclusão
+~~~
+
+Agora, vá em `urls.py` da aplicação e acrescente mais uma `path`, conforme código-fonte abaixo:
+~~~python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('cadastrarPessoa/', views.cadastrar_pessoa, name='cadastrar_pessoa'),
+    path('buscar/', views.buscar_pessoa, name='buscar_pessoa'),
+    path('alterar/<int:id_pessoa>/', views.alterar_pessoa, name='alterar_pessoa'),
+    # TODO: adicione a linha abaixo
+    path('deletar/<int:id_pessoa>/', views.deletar_pessoa, name='deletar_pessoa'),
+]
+~~~
 
 ## Autenticação do usuário
 

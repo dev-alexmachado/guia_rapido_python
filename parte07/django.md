@@ -763,7 +763,6 @@ Adicione dentro da pasta do app o arquivo `cadastrar.html` com o seguinte códig
         <input type="number" step="0.01" name="altura" required>
         <br>
         <label for="data_nascimento">Data de Nascimento:</label>
-        <!-- REVIEW: revisar a linha abaixo -->
         <input type="date" name="data_nascimento" required>
         <br>
         <button type="submit">Cadastrar</button>
@@ -824,8 +823,7 @@ Abra o `index.html` em `templates` e faça o seguinte código:
                 {{ pessoa.email }} |
                 {{ pessoa.cpf }} |
                 {{ pessoa.altura }} metros |
-                <!-- REVIEW: revisar a linha abaixo -->
-                {{ data_nascimento }}
+                {{ pessoa.data_nascimento|date:"d/m/Y" }}
             </li>
         {% empty %}
             <li>Nenhuma pessoa cadastrada.</li>

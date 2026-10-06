@@ -932,7 +932,7 @@ Crie um novo arquivo no app chamado `alterar.html`, e faça o seguinte código-f
         <br>
         <label for="data_nascimento">CPF:</label>
         <!-- REVIEW: revisar a linha abaixo -->
-        <input type="date" name="data_nascimento" value="{{ pessoa.data_nascimento }}" required>
+        <input type="date" name="data_nascimento" value="{{ pessoa.data_nascimento|date:'Y-m-d' }}" required>
         <br>
         <button type="submit">Alterar</button>
     </form>
@@ -953,8 +953,7 @@ Agora, vá para `index.html` e acrescente `<a href="{% url 'alterar_pessoa' pess
                 {{ pessoa.email }} |
                 {{ pessoa.cpf }} |
                 {{ pessoa.altura }} metros |
-                <!-- REVIEW: revisar a linha abaixo -->
-                {{ data_nascimento }} |
+                {{ data_nascimento|date:"d/m/Y" }} |
                 <!-- TODO: acrescente a linha abaixo -->
                  <a href="{% url 'alterar_pessoa' pessoa.id_pessoa %}">Alterar</a>
             </li>
@@ -1059,8 +1058,7 @@ O último item do CRUD é o de deletar registro. Começe acrescentando o link pa
                 {{ pessoa.email }} |
                 {{ pessoa.cpf }} |
                 {{ pessoa.altura }} metros |
-                <!-- REVIEW: revisar a linha abaixo -->
-                {{ data_nascimento }} |
+                {{ data_nascimento|date:"d/m/Y" }} |
                 <a href="{% url 'alterar_pessoa' pessoa.id_pessoa %}">Alterar</a> |
                 <!-- TODO: acrescente a linha abaixo -->
                 <a href="{% url 'deletar_pessoa' pessoa.id_pessoa %}">Deletar</a>

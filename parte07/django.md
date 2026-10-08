@@ -38,10 +38,11 @@
     8.2 [Template](#template)<br>
     8.3 [View](#view)<br>
 9. [CRUD](#crud)<br>
-    9.1 [Create: criar/cadastrar](#create-criarcadastrar)<br>
-    9.2 [Read: pesquisar/listar](#read-pesquisarexibirlistar)<br>
-    9.3 [Update: editar/alterar/atualizar](#update-editaralteraratualizar)<br>
-    9.4 [Delete: apagar/excluir/deletar](#delete-apagarexcluirdeletar)
+    9.1 [Preparação para o CRUD](#preparação-para-o-crud)<br>
+    9.2 [Create: criar/cadastrar](#create-criarcadastrar)<br>
+    9.3 [Read: pesquisar/listar](#read-pesquisarexibirlistar)<br>
+    9.4 [Update: editar/alterar/atualizar](#update-editaralteraratualizar)<br>
+    9.5 [Delete: apagar/excluir/deletar](#delete-apagarexcluirdeletar)
 10. [Autenticação do usuário](#autenticação-do-usuário)
 
 ## Introdução
@@ -713,12 +714,104 @@ Já visto anteriormente, mas iremos revisar aqui:
 - **Update**: editar/alterar/atualizar.
 - **Delete**: apagar/excluir/deletar.
 
+### Preparação para o CRUD
+
+Antes de começarmos o CRUD propriamente dito, vamos fazer algumas preparações:
+
+1. Na pasta da aplicação onde será feito o CRUD, crie um novo arquivo chamado `forms.py` e importe a biblioteca `forms` e também a entidade que deseja fazer o CRUD. Vamos usar o exemplo utilizado para este tutorial, a classe `Pessoa`:
+~~~python
+from django import forms
+from .models import Pessoa
+~~~
+
+2. Crie uma classe chamada `PessoaForm` que irá herdar de `ModelForm` da biblioteca `form`, e dentro dela crie outra classe chamada `Meta`. É nessa classe que iremos definir os campos do formulário, os atributos do HTML e as mensagens de erro que aparecerão na página:
+~~~python
+from django import forms
+from .models import Pessoa
+
+
+class PessoaForm(forms.ModelForm):
+    class Meta:
+        model = Pessoa
+        fields = ['nome', 'email', 'cpf', 'altura', 'data_nascimento']
+        widgets = {
+                'nome': forms.TextInput(
+                        attrs={
+                            'id': "email",
+                            'required': True,
+                        },
+                ),
+                'email': forms.EmailInput(
+                    attrs={
+                        'id': "email",
+                        'required': True,
+                    },
+                ),
+                'cpf': forms.TextInput(
+                    attr={
+                        'id': "cpf",
+                        'required': True,
+                    }
+                ),
+                'altura': forms.NumberInput(
+                    attrs={
+                        'type': "number",
+                        'id': "altura",
+                        'step': 0.01,
+                    }
+                ),
+                'data_nascimento': forms.DateInput(
+                    format='%Y-%m-%d',
+                    attrs={
+                        'type': "date",
+                        'id': "data_nascimento",
+                        'required': True,
+                    },
+                ),
+                'comentario': forms.Textarea(
+                    attrs={
+                        'id': "comentario",
+                        'rows': 4,
+                    },
+                ),
+        }
+        error_messages = {
+            'email':{
+                'unique': "E-mail já cadastrado.",
+            },
+            'cpf':{
+                'unique': "CPF já cadastrado.",
+            }
+        }
+~~~
+
+3. Vá em `Templates`, abra a pasta `includes`, e dentro dela crie um arquivo chamado `form.html`, com o seguinte código-fonte:
+~~~html
+<label for="{{ form.nome.id_for_label }}">Nome:</label><br>
+{{ form.nome }}<br><br>
+<label for="{{ form.email.id_for_label }}">Email:</label><br>
+{{ form.email }}<br>
+{% for erro in form.email.errors %}
+    <small>{{ erro }}</small><br>
+{% endfor %}<br>
+<label for="{{ form.cpf.id_for_label }}">CPF:</label><br>
+{{ form.cpf }}<br>
+{% for erro in form.cpf.errors %}
+    <small>{{ erro }}</small><br>
+{% endfor %}<br>
+<label for="{{ form.altura.id_for_label }}">Altura:</label><br>
+{{ form.altura }}<br><br>
+<label for="{{ form.data_nascimento.id_for_label }}">Data de Nascimento:</label><br>
+{{ form.data_nascimento }}<br><br>
+~~~
+
+Agora vamos começar com o CRUD.
+
 ### Create: criar/cadastrar
 
 Abra o arquivo `views.py` no diretório do app e adicione o código conforme descrito abaixo:
 ~~~python
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from .models import Pessoa
 
 def index(request):
@@ -727,44 +820,23 @@ def index(request):
 # TODO: nova view
 def cadastrar_pessoa(request):
     if request.method == 'POST':
-        nome = request.POST.get('nome')
-        email = request.POST.get('email')
-        cpf = request.POST.get('cpf')
-        altura = request.POST.get('altura')
-        data_nascimento = request.POST.get('data_nascimento')
-        Pessoa.objects.create(
-            nome=nome,
-            email=email,
-            cpf=cpf,
-            altura=altura,
-            data_nascimento=data_nascimento
-        )
-        return redirect('index')
-    return render(request, 'cadastrar.html')
+        form = PessoaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = PessoaForm()
+    return render(request, 'cadastrar.html', {'form': form})
 ~~~
 
 Adicione dentro da pasta do app o arquivo `cadastrar.html` com o seguinte código:
 ~~~html
 {% extends 'base.html' %}
-{% block title %}Home Page{% endblock %}
+{% block title %}Cadastrar{% endblock %}
 {% block content %}
     <form method="POST" action="{% url 'cadastrar_pessoa' %}">
         {% csrf_token %}
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-        <br>
-        <label for="cpf">CPF:</label>
-        <input type="text" name="cpf" required>
-        <br>
-        <label for="altura">Altura:</label>
-        <input type="number" step="0.01" name="altura" required>
-        <br>
-        <label for="data_nascimento">Data de Nascimento:</label>
-        <input type="date" name="data_nascimento" required>
-        <br>
+        {% include 'includes/form.html' %}
         <button type="submit">Cadastrar</button>
     </form>
 {% endblock %}
@@ -785,7 +857,7 @@ Agora abra o arquivo `header.html` em `templates`, e edite o link para acessar o
 ~~~html
 <header>
     <a href="/">Home page</a> |
-    <a href="/cadastrarPessoa">Cadastrar nova pessoa</a>
+    <a href="{% url 'cadastrar_pessoa' %}">Cadastrar nova pessoa</a>
 </header>
 ~~~
 
@@ -869,20 +941,13 @@ def index(request):
 
 def cadastrar_pessoa(request):
     if request.method == 'POST':
-        nome = request.POST.get('nome')
-        email = request.POST.get('email')
-        cpf = request.POST.get('cpf')
-        altura = request.POST.get('altura')
-        data_nascimento = request.POST.get('data_nascimento')
-        Pessoa.objects.create(
-            nome=nome,
-            email=email,
-            cpf=cpf,
-            altura=altura,
-            data_nascimento=data_nascimento
-        )
-        return redirect('index')
-    return render(request, 'cadastrar.html')
+        form = PessoaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = PessoaForm()
+    return render(request, 'cadastrar.html', {'form': form})
 
 def buscar_pessoa(request):
     query = request.GET.get('buscar', '')
@@ -914,26 +979,11 @@ Para alterar os dados de um cadastro já registrado no banco de dados, crie um H
 Crie um novo arquivo no app chamado `alterar.html`, e faça o seguinte código-fonte:
 ~~~html
 {% extends 'base.html' %}
-{% block title %}Home Page{% endblock %}
+{% block title %}Alterar Dados{% endblock %}
 {% block content %}
     <form method="POST" action="{% url 'alterar_pessoa' pessoa.id_pessoa %}">
         {% csrf_token %}
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" value="{{ pessoa.nome }}" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" value="{{ pessoa.email }}" required>
-        <br>
-        <label for="cpf">CPF:</label>
-        <input type="text" name="cpf" value="{{ pessoa.cpf }}" required>
-        <br>
-        <label for="altura">CPF:</label>
-        <input type="number" step="0.01" name="altura" value="{{ pessoa.altura }}" required>
-        <br>
-        <label for="data_nascimento">CPF:</label>
-        <!-- REVIEW: revisar a linha abaixo -->
-        <input type="date" name="data_nascimento" value="{{ pessoa.data_nascimento|date:'Y-m-d' }}" required>
-        <br>
+        {% include 'includes/form.html' %}
         <button type="submit">Alterar</button>
     </form>
 {% endblock %}
@@ -970,15 +1020,18 @@ Depois, abra `views.py` na pasta da sua aplicação, e acrescente o seguinte mé
 
 def alterar_pessoa(request, id_pessoa):
     pessoa = Pessoa.objects.get(id_pessoa=id_pessoa)
+
     if request.method == 'POST':
-        pessoa.nome = request.POST.get('nome')
-        pessoa.email = request.POST.get('email')
-        pessoa.cpf = request.POST.get('cpf')
-        pessoa.altura = request.POST.get('altura')
-        pessoa.data_nascimento = request.POST.get('data_nascimento')
-        pessoa.save()
-        return redirect('index')  # Redireciona para a página inicial após alteração
-    return render(request, 'alterar.html', {'pessoa': pessoa})
+        form = PessoaForm(request.POST, instance=pessoa)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = PessoaForm(instance=pessoa)
+    return render(request, 'alterar_pessoa.html', {
+        'form': form,
+        'pessoa': pessoa,
+    })
 
 # ...restante do código
 ~~~
@@ -995,20 +1048,13 @@ def index(request):
 
 def cadastrar_pessoa(request):
     if request.method == 'POST':
-        nome = request.POST.get('nome')
-        email = request.POST.get('email')
-        cpf = request.POST.get('cpf')
-        altura = request.POST.get('altura')
-        data_nascimento = request.POST.get('data_nascimento')
-        Pessoa.objects.create(
-            nome=nome,
-            email=email,
-            cpf=cpf,
-            altura=altura,
-            data_nascimento=data_nascimento
-        )
-        return redirect('index')
-    return render(request, 'cadastrar.html')
+        form = PessoaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = PessoaForm()
+    return render(request, 'cadastrar.html', {'form': form})
 
 def buscar_pessoa(request):
     query = request.GET.get('buscar', '')
@@ -1017,15 +1063,18 @@ def buscar_pessoa(request):
 
 def alterar_pessoa(request, id_pessoa):
     pessoa = Pessoa.objects.get(id_pessoa=id_pessoa)
+
     if request.method == 'POST':
-        pessoa.nome = request.POST.get('nome')
-        pessoa.email = request.POST.get('email')
-        pessoa.cpf = request.POST.get('cpf')
-        pessoa.altura = request.POST.get('altura')
-        pessoa.data_nascimento = request.POST.get('data_nascimento')
-        pessoa.save()
-        return redirect('index')  # Redireciona para a página inicial após alteração
-    return render(request, 'alterar.html', {'pessoa': pessoa})
+        form = PessoaForm(request.POST, instance=pessoa)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = PessoaForm(instance=pessoa)
+    return render(request, 'alterar_pessoa.html', {
+        'form': form,
+        'pessoa': pessoa,
+    })
 ~~~
 
 Para finalizar, abra `urls.py` na pasta da aplicação, e acrescente em `urlpatterns`: `path('alterar/<int:id_pessoa>/', views.alterar_pessoa, name='alterar_pessoa'),`. Ficará assim:

@@ -13,7 +13,7 @@
 
 ## Sumário
 
-1. [Instrodução](#introdução)
+1. [Introdução](#introdução)
 2. [Estrutura do Django](#estrutura-do-django)<br>
     2.1 [Projeto](#projeto)<br>
     2.2 [Aplicação](#aplicação)<br>
@@ -44,6 +44,9 @@
     9.4 [Update: editar/alterar/atualizar](#update-editaralteraratualizar)<br>
     9.5 [Delete: apagar/excluir/deletar](#delete-apagarexcluirdeletar)
 10. [Autenticação do usuário](#autenticação-do-usuário)
+11. [Compartilhamento do Front-End entre os apps](#compartilhamento-do-front-end-entre-os-apps)<br>
+    11.1 [Templates em comum](#templates-em-comum)<br>
+    11.2 [Static em comum](#static-em-comum)<br>
 
 ## Introdução
 
@@ -1477,6 +1480,105 @@ Para finalizar, acrescente um botão chamado `Sair` em todas as páginas que pre
         <a href="{% url 'logout' %}">Sair</a>
     </p>
 </header>
+~~~
+
+## Compartilhamento do Front-End entre os apps
+
+Para evitar o desperdício de código, o desenvolvedor pode compartilhar os mesmos arquivos HTML e também os mesmos arquivos estáticos entre diferentes apps do mesmo projeto. Basta apenas criar uma pasta `templates` e uma `static` na raíz do projeto, e configurá-los em `settings.py`. Veja como fazer a seguir:
+
+### Templates em comum
+
+1. Na raiz do seu projeto, crie uma pasta chamada `templates`, da mesma forma como é feito dentro da pasta de um app.
+2. Coloque dentro dessa pasta todos os HTMLs que serão compartilhados entre os apps.
+3. Para o nosso exemplo, vamos compartilhar os arquivos `header.html` e `footer.html` dentro da pasta includes. Veja como fica o mapa de diretórios:
+```
+projeto-django//
+├── .venv//
+├── apps//
+├── config//
+├── templates/
+│   └── includes/
+│       ├── footer.html
+│       └── header.html
+├── banco.db
+├── manage.py
+└── requirements.txt
+
+```
+[![templates](../img/templates-global.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
+4. Depois, abra o arquivo `settings.py` em `config` e procure por `TEMPLATES`.
+5. Na chave `DIRS`, adicione dentro dos colchetes `[]` o seguinte código: `BASE_DIR / 'templates'`. Ficará assim:
+~~~python
+# ...parte anterior do código-fonte
+# REVIEW: testar esse código-fonte
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates'], # TODO: altere essa linha
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+# ...restante do código-fonte
+
+# REVIEW: testar também se o código-fonte abaixo funciona
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [BASE_DIR / 'templates'],  # <-- Adicione aqui
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+#         },
+#     },
+# ]
+~~~
+
+### Static em comum
+
+Para compartilhar arquivos estáticos em comum entre apps, faça o seguinte:
+
+1. Crie na raiz do seu projeto a pasta `static_global`. Ficará assim:
+```
+projeto-django/
+├── .venv/
+├── apps/
+├── config/
+├── static_global/
+│   ├── css/
+│   ├── fonts/
+│   ├── img/
+│   └── js/
+├── templates/
+│   └── includes/
+│       ├── footer.html
+│       └── header.html
+├── banco.db
+├── manage.py
+└── requirements.txt
+
+```
+[![static_global](../img/static_global.svg)](https://www.readmecodegen.com/file-tree/create-folder-structure-online)
+
+2. No arquivo `settings.py`, adicione o seguinte código:
+~~~python
+# ...parte anterior do código-fonte
+STATICFILES_DIRS = [
+    BASE_DIR / 'static_global',
+]
+# ...restante do código-fonte
 ~~~
 
 ---
